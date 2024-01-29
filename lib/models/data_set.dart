@@ -9,3 +9,22 @@ class DataSet {
 
   DataSet({required this.id, required this.name, required this.traits, required this.observations});
 }
+
+/// Mock data
+extension MockDataSet on DataSet {
+  static List<DataSet> mockData() {
+    return [
+      DataSet(
+          id: 1,
+          name: "Mock - Spring Barley Low Rainfall (<20\" Precipitation)",
+          traits: MockTrait.mockData(),
+          observations: MockObservation.mockData1()
+      ),
+      DataSet(
+          id: 2, name: "HRS Low Rainfall (<20\" Precip.)",
+          traits: MockTrait.mockData(),
+          observations: MockObservation.mockData2()
+      ),
+    ];
+  }
+}
