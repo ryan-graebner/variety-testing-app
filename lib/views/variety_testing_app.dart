@@ -20,25 +20,37 @@ class VarietyTestingApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Variety Testing Data',
           theme: ThemeData(
-            // This is the theme of your application.
-            //
-            // TRY THIS: Try running your application with "flutter run". You'll see
-            // the application has a purple toolbar. Then, without quitting the app,
-            // try changing the seedColor in the colorScheme below to Colors.green
-            // and then invoke "hot reload" (save your changes or press the "hot
-            // reload" button in a Flutter-supported IDE, or press "r" if you used
-            // the command line to start the app).
-            //
-            // Notice that the counter didn't reset back to zero; the application
-            // state is not lost during the reload. To reset the state, use hot
-            // restart instead.
-            //
-            // This works for code too, not just values: Most code changes can be
-            // tested with just a hot reload.
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            // Added OSU Orange as the Primary Color Scheme of the App
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 215, 64, 9)),
+            textTheme: const TextTheme(
+              // Used for the APP BAR
+              titleLarge: TextStyle(
+                color: Color(0xFFFFFFFF), 
+                fontFamily: 'openSans', 
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0),
+              // Used for the NAV BAR
+              titleSmall: TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontFamily: 'openSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 14.0, ),
+              bodyLarge: TextStyle(
+                color: Color(0xFF000000),
+                fontFamily: 'openSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0
+              ),
+              bodyMedium: TextStyle(
+                color: Color(0xFF000000),
+                fontFamily: 'openSans',
+                fontSize: 14,
+              ) 
+              
+              ),
             useMaterial3: true,
           ),
-          home: const HomePage(title: 'Flutter Demo Home Page'),
+          home: const HomePage(),
         ),
     );
   }
