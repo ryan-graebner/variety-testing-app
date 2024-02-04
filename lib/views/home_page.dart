@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:variety_testing_app/state/data_repository.dart';
+import 'package:variety_testing_app/views/variety_page.dart';
+import 'package:variety_testing_app/views/traits_page.dart';
+import 'package:variety_testing_app/views/software_page.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+  const HomePage({super.key,});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -14,61 +15,66 @@ class HomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-  final String title;
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  // Navigation Var
+  int currentPageIndex = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final List<String> _titles = [
+    "Wheat and Barley Variety Data",
+    "Traits",
+    "Software Information"
+  ];
+
+  final List<Widget> _pages = [
+    const VarietyPage(),
+    const TraitsPage(),
+    const SoftwarePage()
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        // Add White Color to overall style
+        titleTextStyle: Theme.of(context).textTheme.titleLarge,
+        title: Text(_titles[currentPageIndex]),
+        centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('${context.read<DataRepository>().dataSets ?? 'No data sets'}'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+      // Body is shifted between pages based on bottom pressed button
+      body: _pages[currentPageIndex],
+      // Bottom Nav bar with 3 icons.
+      bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.analytics, size: 30),
+              label: "Overview "),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.grass, size: 30),
+              label: "Traits"),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.dvr, size: 30),
+              label: 'Software',),
           ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          elevation: 5.0,
+          currentIndex: currentPageIndex,
+          selectedLabelStyle: Theme.of(context).textTheme.titleSmall,
+          unselectedLabelStyle: Theme.of(context).textTheme.titleSmall,
+          backgroundColor: Colors.black,
+          // On tap updates the state to the new currentPageIndex on tap.
+          onTap: (index){
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+        )
     );
   }
 }
