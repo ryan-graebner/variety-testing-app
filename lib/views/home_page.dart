@@ -56,9 +56,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              context.select<DataRepository, String>((repo) => repo.dbService.testProvider),
-            ),
+            Text('${context.read<DataRepository>().dataSets ?? 'No data sets'}'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,

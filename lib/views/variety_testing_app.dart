@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/data_repository.dart';
-import 'package:variety_testing_app/state/database_service.dart';
 import 'home_page.dart';
 
 class VarietyTestingApp extends StatelessWidget {
@@ -12,9 +12,9 @@ class VarietyTestingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          Provider(create: (context) => DatabaseService()),
-          ProxyProvider<DatabaseService, DataRepository>(
-            update: (context, db, previousRepo) => DataRepository(db),
+          Provider(create: (context) => CSVManager()),
+          ProxyProvider<CSVManager, DataRepository>(
+            update: (context, csv, previousRepo) => DataRepository(csv),
           ),
         ],
         child: MaterialApp(
