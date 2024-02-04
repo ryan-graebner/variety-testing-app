@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import '../models/data_set.dart';
+import '../models/observation.dart';
+import '../models/trait.dart';
 
 class DataRepository {
   final CSVManager csvManager;
@@ -38,13 +41,19 @@ class DataRepository {
   }
 
   static void debugPrint(List<DataSet> data) {
-    for (DataSet d in data) {
-      print('DataSet ${d.order} - ${d.name}');
-      print('Traits:');
-      d.traits.forEach((t) => print('${t.order} ${t.name} ${t.columnVisibility}'));
-      print('Observations:');
-      d.observations.forEach((o) => print('${o.order} ${o.traitOrdersAndValues}'));
-      print('\n');
+    if (kDebugMode) {
+      for (DataSet d in data) {
+        print('DataSet ${d.order} - ${d.name}');
+        print('Traits:');
+        for (Trait trait in d.traits) {
+          print('${trait.order} ${trait.name} ${trait.columnVisibility}');
+        }
+        print('Observations:');
+        for (Observation observation in d.observations) {
+          print('${observation.order} ${observation.traitOrdersAndValues}');
+        }
+        print('\n');
+      }
     }
   }
 }
