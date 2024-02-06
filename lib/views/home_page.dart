@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> _pages = [
-    const VarietyPage(),
+    VarietyPage(),
     const TraitsPage(),
     const SoftwarePage()
   ];

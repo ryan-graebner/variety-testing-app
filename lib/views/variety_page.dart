@@ -12,6 +12,7 @@ class _VarietyPageState extends State<VarietyPage> {
     List<DataSet> _dataSets = MockDataSet.mockData();
     List<String> _environments = [];
     String _selectedEnvironment = "";
+
     
       @override
   void initState() {
@@ -56,7 +57,7 @@ class _VarietyPageState extends State<VarietyPage> {
                     child: Container(
                       color: Colors.white,
                       child: DropdownMenu<String>(
-                          width: 300.0,
+                        width: 300.0,
                           initialSelection: _environments.first,
                           dropdownMenuEntries: _environments.map<DropdownMenuEntry<String>>((String value) {
                             return DropdownMenuEntry<String>(
