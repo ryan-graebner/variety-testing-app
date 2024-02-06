@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 
 
 class SoftwarePage extends StatelessWidget {
+  const SoftwarePage({super.key});
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: const [
-            // Ackoledgment
+            // Acknowledgment
             Card(
               child: Padding(
                 padding: EdgeInsets.all(16.0),

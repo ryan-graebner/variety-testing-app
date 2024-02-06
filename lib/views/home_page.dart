@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:variety_testing_app/state/data_repository.dart';
 import 'package:variety_testing_app/views/variety_page.dart';
 import 'package:variety_testing_app/views/traits_page.dart';
 import 'package:variety_testing_app/views/software_page.dart';
@@ -33,9 +31,9 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> _pages = [
-    VarietyPage(),
-    TraitsPage(),
-    SoftwarePage()
+    const VarietyPage(),
+    const TraitsPage(),
+    const SoftwarePage()
   ];
 
   @override
@@ -54,13 +52,13 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.analytics, size: 30), 
+              icon: Icon(Icons.analytics, size: 30),
               label: "Overview "),
             BottomNavigationBarItem(
-              icon: Icon(Icons.grass, size: 30), 
+              icon: Icon(Icons.grass, size: 30),
               label: "Traits"),
             BottomNavigationBarItem(
-              icon: Icon(Icons.dvr, size: 30), 
+              icon: Icon(Icons.dvr, size: 30),
               label: 'Software',),
           ],
           selectedItemColor: Colors.white,

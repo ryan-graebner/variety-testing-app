@@ -5,6 +5,10 @@ enum ColumnVisibility {
   alwaysShown(3),
   releasedColumn(4);
 
-  const ColumnVisibility(this.rawValue);
   final int rawValue;
+  const ColumnVisibility(this.rawValue);
+
+  factory ColumnVisibility.fromNumber(int num) {
+    return values.firstWhere((value) => value.rawValue == num);
+  }
 }
