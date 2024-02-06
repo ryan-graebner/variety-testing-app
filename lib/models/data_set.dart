@@ -21,7 +21,8 @@ extension MockDataSet on DataSet {
           observations: MockObservation.mockData1()
       ),
       DataSet(
-          id: 2, name: "HRS Low Rainfall (<20\" Precip.)",
+          id: 2, 
+          name:  "Mock - HRS Low Rainfall (<20\" Precip.)",
           traits: MockTrait.mockData(),
           observations: MockObservation.mockData2()
       ),
