@@ -1,10 +1,10 @@
 import 'dart:collection';
 
 class Observation {
-  final int id;
-  final HashMap<int, String> traitIDsAndValues;
+  final int order;
+  final HashMap<int, String> traitOrdersAndValues;
 
-  Observation({required this.id, required this.traitIDsAndValues});
+  Observation({required this.order, required this.traitOrdersAndValues});
 }
 
 /// Mock data
@@ -12,8 +12,8 @@ extension MockObservation on Observation {
   static List<Observation> mockData1() {
     return [
       Observation(
-          id: 1,
-          traitIDsAndValues: HashMap.from({
+          order: 1,
+          traitOrdersAndValues: HashMap.from({
             1: "137",
             2: "WA355",
             3: "1",
@@ -22,8 +22,8 @@ extension MockObservation on Observation {
           })
       ),
       Observation(
-          id: 2,
-          traitIDsAndValues: HashMap.from({
+          order: 2,
+          traitOrdersAndValues: HashMap.from({
             1: "128",
             2: "Lanning",
             3: "0",
@@ -37,8 +37,8 @@ extension MockObservation on Observation {
   static List<Observation> mockData2() {
     return [
       Observation(
-          id: 3,
-          traitIDsAndValues: HashMap.from({
+          order: 3,
+          traitOrdersAndValues: HashMap.from({
             1: "284",
             2: "Hale",
             3: "1",
@@ -47,8 +47,8 @@ extension MockObservation on Observation {
           })
       ),
       Observation(
-          id: 4,
-          traitIDsAndValues: HashMap.from({
+          order: 4,
+          traitOrdersAndValues: HashMap.from({
             1: "120",
             2: "Glee",
             3: "1",
@@ -57,8 +57,8 @@ extension MockObservation on Observation {
           })
       ),
       Observation(
-          id: 5,
-          traitIDsAndValues: HashMap.from({
+          order: 5,
+          traitOrdersAndValues: HashMap.from({
             1: "180",
             2: "WA8358 CL+",
             3: "0",

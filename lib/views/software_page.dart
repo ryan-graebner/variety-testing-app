@@ -3,12 +3,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 
 class SoftwarePage extends StatelessWidget {
+  const SoftwarePage({super.key});
+
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
             // DATA source card and link to Crop and Soil homepage

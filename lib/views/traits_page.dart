@@ -6,6 +6,8 @@ import 'package:csv/csv.dart';
 
 
 class TraitsPage extends StatefulWidget {
+  const TraitsPage({super.key});
+
   @override
   State<TraitsPage> createState() => _TraitsPageState();
 }
