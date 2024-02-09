@@ -51,23 +51,8 @@ class SoftwarePage extends StatelessWidget {
                 ),
               ),
             ),
-            // Publication Card
-            Card(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text("Publication", style: Theme.of(context).textTheme.bodyLarge,),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("A Publication on this App may be coming Soon!"),
-                      )
-                    ],)
-                  ],
-                ),
-              ),
-            ),
             // Github Card
+            //TODO: Add Public Repository with stripped down Data
             Card(
               child: Padding(
                 padding: EdgeInsets.all(16.0),

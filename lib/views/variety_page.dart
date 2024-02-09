@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:variety_testing_app/models/data_set.dart';
+import 'package:provider/provider.dart';
+import 'package:variety_testing_app/state/data_repository.dart';
 
 
 class VarietyPage extends StatefulWidget {
@@ -32,6 +34,8 @@ class _VarietyPageState extends State<VarietyPage> {
 
   @override
   Widget build(BuildContext context) {
+    //final dataRepProvider = Provider.of<DataRepository>(context);
+    
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,7 +94,7 @@ class _VarietyPageState extends State<VarietyPage> {
                   Container(
                     width: 80.0,
                     child: FloatingActionButton(
-                      // TODO: Link to show data when dhow data is pressed
+                      // TODO: Link to show data when show data is pressed
                       onPressed: null,
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.black,
