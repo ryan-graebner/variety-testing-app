@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:variety_testing_app/views/variety_page.dart';
-import 'package:variety_testing_app/views/traits_page.dart';
 import 'package:variety_testing_app/views/software_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key,});
+  
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -23,6 +23,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Navigation Var
   int currentPageIndex = 0;
+  
 
   final List<String> _titles = [
     "Wheat and Barley Variety Data",
@@ -31,8 +32,7 @@ class _HomePageState extends State<HomePage> {
   ];
 
   final List<Widget> _pages = [
-    const VarietyPage(),
-    const TraitsPage(),
+    VarietyPage(),
     const SoftwarePage()
   ];
 
@@ -54,9 +54,6 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: Icon(Icons.analytics, size: 30),
               label: "Overview "),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.grass, size: 30),
-              label: "Traits"),
             BottomNavigationBarItem(
               icon: Icon(Icons.dvr, size: 30),
               label: 'Software',),

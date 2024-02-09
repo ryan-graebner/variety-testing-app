@@ -29,6 +29,7 @@ class DataRepository {
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
 
+
       dataSets = await csvManager.parseDataSets();
       // load datasets into local storage
     } catch (error) {
