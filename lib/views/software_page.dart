@@ -16,7 +16,7 @@ class SoftwarePage extends StatelessWidget {
             // DATA source card and link to Crop and Soil homepage
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     Text("Data Source", style: Theme.of(context).textTheme.bodyLarge,),
@@ -55,7 +55,7 @@ class SoftwarePage extends StatelessWidget {
             //TODO: Add Public Repository with stripped down Data
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     Text("Github Link" , style: Theme.of(context).textTheme.bodyLarge,),
@@ -82,18 +82,18 @@ class SoftwarePage extends StatelessWidget {
             ),
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     Text("Acknowledgment", style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("This app was produced as a Capstone Project for the Orgeon State School of Computer Science by the following team:\n"),
+                        child: Text("This app was produced as a Capstone Project for the Oregon State University School of Computer Science by the following team:\n"),
                       )
                     ],),
                     const Row(children: [
                       Flexible(
-                        child: Text("Dr. Ryan Greabner - School of Agricultural Sciences"),
+                        child: Text("Dr. Ryan Graebner - School of Agricultural Sciences"),
                       )
                     ],),
                     const Row(children: [
@@ -113,7 +113,7 @@ class SoftwarePage extends StatelessWidget {
             // APP CITATION card - add updated ciation once publishing is solidifed
             Card(
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
                     Text("App Citation", style: Theme.of(context).textTheme.bodyLarge,),
@@ -124,7 +124,7 @@ class SoftwarePage extends StatelessWidget {
                     ],),
                     const Row(children: [
                       Flexible(
-                        child: Text("Oregon State Univeristy. (2024) OSU Wheat and Barley Variety Testing (Version 1.0.0)[Mobile App]"),
+                        child: Text("Oregon State University. (2024) OSU Wheat and Barley Variety Testing (Version 1.0.0)[Mobile App]"),
                       )
                     ],)
                   ],
