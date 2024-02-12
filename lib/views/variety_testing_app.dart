@@ -39,7 +39,7 @@ class VarietyTestingApp extends StatelessWidget {
                 color: Color(0xFF000000),
                 fontFamily: 'openSans',
                 fontWeight: FontWeight.bold,
-                fontSize: 16.0
+                fontSize: 14.0
               ),
               bodyMedium: TextStyle(
                 color: Color(0xFF000000),
