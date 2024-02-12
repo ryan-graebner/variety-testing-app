@@ -9,7 +9,7 @@ class DataRepository extends ChangeNotifier {
   String? lastUpdated = '2022'; // TODO: get this from local storage
   String? dataYear = '2022'; // TODO: get from local storage
 
-  List<DataSet>? dataSets;
+  List<DataSet> dataSets = [];
 
   DataRepository(this.csvManager);
 
@@ -29,7 +29,7 @@ class DataRepository extends ChangeNotifier {
 
 
       dataSets = await csvManager.parseDataSets();
-      DataRepository.debugPrint(dataSets ?? []);
+      DataRepository.debugPrint(dataSets);
       // load datasets into local storage
     } catch (error) {
       // TODO: Display the error in the UI if this happens
