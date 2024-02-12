@@ -4,7 +4,7 @@ import 'package:data_table_2/data_table_2.dart';
 import '../state/app_state.dart';
 import 'loading_view.dart';
 
-
+// TODO: Split different pieces out into separate widgets for ease of code maintenance
 class VarietyPage extends StatefulWidget {
   const VarietyPage({super.key});
 
@@ -29,6 +29,7 @@ class _VarietyPageState extends State<VarietyPage> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Catch exceptions here that are thrown when parsing data?
     return context.watch<AppState>().isLoading
         ? const LoadingView()
         : Scaffold(
@@ -113,9 +114,7 @@ class _VarietyPageState extends State<VarietyPage> {
                     SizedBox(
                       width: 120.0,
                       child: FloatingActionButton(
-                        // TODO: Link to show data when show data is pressed
                           onPressed: () {
-                            context.read<AppState>().initializeTraits();
                             setState(() {
                               // Hide the traits filters, reset the button and make the table visible.
                               _filtersVisible = false;
@@ -189,6 +188,8 @@ class _VarietyPageState extends State<VarietyPage> {
               )
           ),
 
+          // TODO: Figure out a better way than all of the context.watch statements
+          // TODO: Fix this crashing app when there are no traits or observations (or catch that way earlier)
           // DATA Table Widget
           Flexible(
             child: Visibility(
@@ -198,6 +199,7 @@ class _VarietyPageState extends State<VarietyPage> {
                     minWidth: 3000.0,
                     fixedLeftColumns: 1,
                     fixedTopRows: 1,
+                    empty: const Text("Empty"),
                     dataRowColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {return Colors.grey.withOpacity(0.3); }),
                     columns: List<DataColumn2>.generate(context.watch<AppState>().currentDataSet.traits.length, (index) =>

@@ -3,12 +3,11 @@ import 'package:variety_testing_app/state/data_repository.dart';
 import '../models/column_visibility.dart';
 import '../models/data_set.dart';
 import '../models/trait.dart';
-import 'csv_manager.dart';
 
 class AppState extends ChangeNotifier {
-  DataRepository dataRepository = DataRepository(CSVManager());
+  DataRepository dataRepository = DataRepository();
   List<String> dropdownValues = [];
-  DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []);
+  DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   List<TraitsFilter> _currentTraits = [];
   bool isLoading = true;
 

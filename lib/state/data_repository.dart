@@ -5,13 +5,13 @@ import '../models/observation.dart';
 import '../models/trait.dart';
 
 class DataRepository extends ChangeNotifier {
-  final CSVManager csvManager;
+  final CSVManager csvManager = CSVManager();
   String? lastUpdated = '2022'; // TODO: get this from local storage
   String? dataYear = '2022'; // TODO: get from local storage
 
   List<DataSet> dataSets = [];
 
-  DataRepository(this.csvManager);
+  DataRepository();
 
   // DataRepository will initialize and coordinate all of the data fetching.
   Future<void> initializeData() async {
@@ -20,17 +20,15 @@ class DataRepository extends ChangeNotifier {
       String newLastUpdated = csvManager.getLastUpdated();
       String newDataYear = csvManager.getDataYear();
       if (newLastUpdated == lastUpdated && newDataYear == dataYear) {
-        // No need to load new data. Load from Local Storage
-        // If can't load, throw an exception
+        // TODO: Load from Local Storage
+        // TODO: If can't load, throw an exception
         return;
       }
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
 
-
       dataSets = await csvManager.parseDataSets();
-      DataRepository.debugPrint(dataSets);
-      // load datasets into local storage
+      // TODO: load datasets into local storage
     } catch (error) {
       // TODO: Display the error in the UI if this happens
       //  If can't connect and there is data in LocalStorage:
