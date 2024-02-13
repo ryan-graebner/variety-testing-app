@@ -27,12 +27,11 @@ class _HomePageState extends State<HomePage> {
 
   final List<String> _titles = [
     "Wheat and Barley Variety Data",
-    "Traits",
     "Software Information"
   ];
 
   final List<Widget> _pages = [
-    VarietyPage(),
+    const VarietyPage(),
     const SoftwarePage()
   ];
 

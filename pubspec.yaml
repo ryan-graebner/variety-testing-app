@@ -60,9 +60,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-  # -------------------------TODO: Remove Dummy data before publishing-----------------------
-  assets:
-    - dummy_data/
 
   # Added Fonts Data from Google Fonts
   fonts:

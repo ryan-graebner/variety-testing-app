@@ -74,6 +74,8 @@ class CSVManager {
     return dataSets;
   }
 
+  // TODO: Should probably discard a data set without any associated traits (due to file error)
+  // Or try parsing visibility first and trait name first if possible
   DataSet _parseSingleDataSet({required int order, required List<String> dataRows}) {
 
     // Row 0: DataSet name
