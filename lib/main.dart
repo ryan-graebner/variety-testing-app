@@ -5,13 +5,9 @@ import 'package:variety_testing_app/views/variety_testing_app.dart';
 
 void main() {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AppState>(
-          create: (context) => AppState(),
-        ),
-      ],
-      child: const VarietyTestingApp()
+    ChangeNotifierProvider<AppState>(
+        create: (context) => AppState(),
+        child: const VarietyTestingApp()
     )
   );
 }

@@ -10,6 +10,7 @@ class AppState extends ChangeNotifier {
   DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   List<TraitsFilter> _currentTraits = [];
   bool isLoading = true;
+  String? error;
 
   get currentDataSet => _currentDataSet;
   get currentTraits => _currentTraits;
@@ -19,12 +20,17 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> initializeData() async {
-    await dataRepository.initializeData();
-    dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
-    _currentDataSet = dataRepository.dataSets.first;
-    _currentTraits = await initializeTraits();
-    isLoading = false;
-    notifyListeners();
+    try {
+      await dataRepository.initializeData();
+      dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
+      _currentDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
+      _currentTraits = await initializeTraits();
+      isLoading = false;
+      notifyListeners();
+    } catch(e) {
+      error = e.toString();
+      notifyListeners();
+    }
   }
 
   Future<List<TraitsFilter>> initializeTraits() async {

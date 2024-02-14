@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import '../models/data_set.dart';
 import '../models/observation.dart';
 import '../models/trait.dart';
 
 class DataRepository extends ChangeNotifier {
-  final CSVManager csvManager = CSVManager();
+  final CSVManager csvManager = CSVManager(Client());
   String? lastUpdated = '2022'; // TODO: get this from local storage
   String? dataYear = '2022'; // TODO: get from local storage
 

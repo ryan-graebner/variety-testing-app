@@ -9,6 +9,6 @@ enum ColumnVisibility {
   const ColumnVisibility(this.rawValue);
 
   factory ColumnVisibility.fromNumber(int num) {
-    return values.firstWhere((value) => value.rawValue == num);
+    return values.firstWhere((value) => value.rawValue == num, orElse: () => ColumnVisibility.neverShown);
   }
 }

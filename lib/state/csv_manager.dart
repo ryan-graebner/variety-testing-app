@@ -1,7 +1,7 @@
 import 'dart:collection';
 import 'dart:core';
 import 'dart:math';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:variety_testing_app/models/column_visibility.dart';
 import 'package:variety_testing_app/models/observation.dart';
 import '../models/data_set.dart';
@@ -9,16 +9,17 @@ import '../models/trait.dart';
 import '../utilities/config.dart';
 
 class CSVManager {
+  Client httpClient;
   List<String> indexFileRows = [];
   List<List<String>> csvRows = [];
 
-  CSVManager();
+  CSVManager(this.httpClient);
 
   Future<List<String>> getIndexFileData() async {
-    http.Response indexData = await _fetchCSV(Config.indexUrl);
-    indexFileRows = indexData.body.split('\n');
+    final indexData = await fetchCSV(Config.indexUrl);
+    indexFileRows = indexData.split(RegExp(r'(\r\n|\r|\n)'));
 
-    if (indexFileRows.length < 3) {
+    if (indexFileRows.length < 4) {
       throw Exception(
           'Could not parse index CSV. Make sure it has at least 3 rows.');
     }
@@ -39,8 +40,8 @@ class CSVManager {
     for (String indexRow in indexFileRows.sublist(2)) {
       indexRow = indexRow.trim();
       if (!indexRow.startsWith('http')) continue;
-      http.Response sheetData = await _fetchCSV(indexRow);
-      List<String> sheetRows = sheetData.body.split('\n');
+      String sheetData = await fetchCSV(indexRow);
+      List<String> sheetRows = sheetData.split(RegExp(r'(\r\n|\r|\n)'));
 
       if (sheetRows.length < 4) continue;
 
@@ -55,28 +56,30 @@ class CSVManager {
       csvRows.add(currentSheetList);
     }
 
-    return _parseCSVData(csvRows);
+    return parseCSVData(csvRows);
   }
 
-  //region Private methods
-  Future<http.Response> _fetchCSV(String url) {
-    return http.get(Uri.parse(url));
+  //region Utility methods
+  Future<String> fetchCSV(String url) async {
+    Response response = await httpClient.get(Uri.parse(url));
+    return response.body;
   }
 
-  List<DataSet> _parseCSVData(List<List<String>> data) {
+  List<DataSet> parseCSVData(List<List<String>> data) {
     List<DataSet> dataSets = [];
     
     for (int i = 0; i < data.length; i++) {
       List<String> dataSetRows = data[i];
-      dataSets.add(_parseSingleDataSet(order: i, dataRows: dataSetRows));
+      DataSet? maybeDataSet = parseSingleDataSet(order: i, dataRows: dataSetRows);
+      if (maybeDataSet != null) {
+        dataSets.add(maybeDataSet);
+      }
     }
 
     return dataSets;
   }
 
-  // TODO: Should probably discard a data set without any associated traits (due to file error)
-  // Or try parsing visibility first and trait name first if possible
-  DataSet _parseSingleDataSet({required int order, required List<String> dataRows}) {
+  DataSet? parseSingleDataSet({required int order, required List<String> dataRows}) {
 
     // Row 0: DataSet name
     String name = dataRows[0].split(',')[0];
@@ -87,17 +90,36 @@ class CSVManager {
     List<Observation> observations = [];
 
     // Row 1 and 2: DataSet columnVisibilities and Trait names
-    List<String> columnVisibilities = _getCellValues(dataRows[1]);
-    List<String> traitNames = _getCellValues(dataRows[2]);
-    int columnCount = min(columnVisibilities.length, traitNames.length);
+    List<String> columnVisibilities = getCellValues(dataRows[1]).map((e) => e.trim()).toList();
+    List<String> traitNames = getCellValues(dataRows[2]).map((e) => e.trim()).toList();
+
+    if (!columnVisibilities.every((visibility) => int.tryParse(visibility) != null)) {
+      // Maybe the visilibities are row 2 instead of row 1?
+      bool isRow2Visibilities = traitNames.every((visibility) => int.tryParse(visibility) != null);
+      if (isRow2Visibilities) {
+        List<String> temp = columnVisibilities;
+        columnVisibilities = traitNames;
+        traitNames = temp;
+      } else {
+        // Discard malformed dataset
+        return null;
+      }
+    }
+
+    if (columnVisibilities.length != traitNames.length) {
+      return null;
+    }
+    int columnCount = traitNames.length;
 
     for (int i = 0; i < columnCount; i++) {
-      int? visibility = int.tryParse(columnVisibilities[i].trim());
-      if (visibility != null) {
-        traits.add(Trait(order: i,
+      int? visibility = int.tryParse(columnVisibilities[i]);
+      if (visibility == null) {
+        return null;
+      }
+
+      traits.add(Trait(order: i,
             name: traitNames[i],
             columnVisibility: ColumnVisibility.fromNumber(visibility)));
-      }
     }
 
     List<String> obsDataRows = dataRows.sublist(3);
@@ -105,19 +127,22 @@ class CSVManager {
     // Rows 3+: Observations
     for (int i = 0; i < obsDataRows.length; i++) {
       String observationRow = obsDataRows[i];
-      List<String> observationValues = _getCellValues(observationRow);
+      List<String> observationValues = getCellValues(observationRow);
 
       Map<int, String> observationTraits = {};
-      for (int i = 0; i < observationValues.length; i++) {
+      for (int i = 0; i < min(columnCount, observationValues.length); i++) {
         observationTraits[i] = observationValues[i];
       }
       observations.add(Observation(order: i, traitOrdersAndValues: HashMap.from(observationTraits)));
     }
 
-    return DataSet(order: order, name: name, traits: traits, observations: observations);
+    if (traits.isNotEmpty && observations.isNotEmpty) {
+      return DataSet(order: order, name: name, traits: traits, observations: observations);
+    }
+    return null;
   }
 
-  List<String> _getCellValues(String row) {
+  List<String> getCellValues(String row) {
     return row.split(',');
   }
   //endregion

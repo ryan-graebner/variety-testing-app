@@ -8,6 +8,21 @@ class DataSet {
   final List<Observation> observations;
 
   DataSet({required this.order, required this.name, required this.traits, required this.observations});
+
+  DataSet.fromJson(Map<String, dynamic> json)
+      : order = json['order'],
+        name = json['name'],
+        traits = json['traits'],
+        observations = json['observations'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'order': order,
+      'name': name,
+      'traits': traits.map((t) => t.toJson()).toList(),
+      'observations': observations.map((o) => o.toJson()).toList(),
+    };
+  }
 }
 
 /// Mock data
