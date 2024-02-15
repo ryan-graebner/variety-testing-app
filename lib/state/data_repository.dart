@@ -1,18 +1,17 @@
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import '../models/data_set.dart';
 import '../models/observation.dart';
 import '../models/trait.dart';
 
 class DataRepository extends ChangeNotifier {
-  final CSVManager csvManager = CSVManager(Client());
+  final CSVManager csvManager;
   String? lastUpdated = '2022'; // TODO: get this from local storage
   String? dataYear = '2022'; // TODO: get from local storage
 
   List<DataSet> dataSets = [];
 
-  DataRepository();
+  DataRepository(this.csvManager);
 
   // DataRepository will initialize and coordinate all of the data fetching.
   Future<void> initializeData() async {
@@ -32,6 +31,9 @@ class DataRepository extends ChangeNotifier {
       // TODO: load datasets into local storage
     } catch (error) {
       // TODO: Display the error in the UI if this happens
+      if (kDebugMode) {
+        print(error.toString());
+      }
       //  If can't connect and there is data in LocalStorage:
       //    - Get stored AppState from Local storage and deserialize
       //  If can't connect and no data in LocalStorage:

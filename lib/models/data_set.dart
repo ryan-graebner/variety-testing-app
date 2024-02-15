@@ -30,13 +30,13 @@ extension MockDataSet on DataSet {
   static List<DataSet> mockData() {
     return [
       DataSet(
-          order: 1,
+          order: 0,
           name: "Mock - Spring Barley Low Rainfall (<20\" Precipitation)",
           traits: MockTrait.mockData(),
           observations: MockObservation.mockData1()
       ),
       DataSet(
-          order: 2, name: "Mock - HRS Low Rainfall (<20\" Precip.)",
+          order: 1, name: "Mock - HRS Low Rainfall (<20\" Precip.)",
           traits: MockTrait.mockData(),
           observations: MockObservation.mockData2()
       ),
