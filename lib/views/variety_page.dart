@@ -189,7 +189,6 @@ class _VarietyPageState extends State<VarietyPage> {
           ),
 
           // TODO: Figure out a better way than all of the context.watch statements
-          // TODO: Fix this crashing app when there are no traits or observations (or catch that way earlier)
           // DATA Table Widget
           Flexible(
             child: Visibility(

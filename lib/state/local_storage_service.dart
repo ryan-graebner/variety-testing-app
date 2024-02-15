@@ -1,16 +1,18 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 class LocalStorageService {
-  /*
-  Converts the current AppState to and from the local storage on the user's device
-  Method to erase AppState from local storage
-   */
-
-  // TODO: Serialize and store
-  void storeData() {
-
+  Future<void> storeData(String appState) async {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('appState', appState);
   }
 
-  // TODO: Fetch and deserialize
-  void retrieveData() {
+  Future<String?> retrieveData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final appState = prefs.getString('appState');
+    return appState;
+  }
+
+  void eraseData() {
 
   }
 }

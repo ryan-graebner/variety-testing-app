@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/data_repository.dart';
+import 'package:variety_testing_app/state/local_storage_service.dart';
 import '../models/column_visibility.dart';
 import '../models/data_set.dart';
 import '../models/trait.dart';
 
 class AppState extends ChangeNotifier {
-  DataRepository dataRepository = DataRepository(CSVManager(Client()));
+  DataRepository dataRepository = DataRepository(CSVManager(Client()), LocalStorageService());
   List<String> dropdownValues = [];
   DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   List<TraitsFilter> _currentTraits = [];

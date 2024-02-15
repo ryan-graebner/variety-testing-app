@@ -6,6 +6,7 @@ import 'package:test/test.dart' as test;
 import 'package:variety_testing_app/models/data_set.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/data_repository.dart';
+import 'package:variety_testing_app/state/local_storage_service.dart';
 
 @GenerateMocks([CSVManager])
 import 'data_repository_test.mocks.dart';
@@ -42,7 +43,7 @@ void main() {
       when(csvManager.getDataYear()).thenAnswer((_) => "2023");
       when(csvManager.parseDataSets()).thenAnswer((_) async => MockDataSet.mockData());
 
-      final dataRepository = DataRepository(csvManager);
+      final dataRepository = DataRepository(csvManager, LocalStorageService());
 
       await dataRepository.initializeData();
 
