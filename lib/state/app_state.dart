@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/data_repository.dart';
+import 'package:variety_testing_app/state/local_storage_service.dart';
 import '../models/column_visibility.dart';
 import '../models/data_set.dart';
 import '../models/trait.dart';
 
 class AppState extends ChangeNotifier {
-  DataRepository dataRepository = DataRepository();
+  DataRepository dataRepository = DataRepository(CSVManager(Client()), LocalStorageService());
   List<String> dropdownValues = [];
   DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   List<TraitsFilter> _currentTraits = [];
   bool isLoading = true;
+  String? error;
 
   get currentDataSet => _currentDataSet;
   get currentTraits => _currentTraits;
@@ -19,12 +23,17 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> initializeData() async {
-    await dataRepository.initializeData();
-    dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
-    _currentDataSet = dataRepository.dataSets.first;
-    _currentTraits = await initializeTraits();
-    isLoading = false;
-    notifyListeners();
+    try {
+      await dataRepository.initializeData();
+      dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
+      _currentDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
+      _currentTraits = await initializeTraits();
+      isLoading = false;
+      notifyListeners();
+    } catch(e) {
+      error = e.toString();
+      notifyListeners();
+    }
   }
 
   Future<List<TraitsFilter>> initializeTraits() async {
