@@ -2,7 +2,7 @@ import 'dart:collection';
 
 class Observation {
   final int order;
-  final HashMap<int, String> traitOrdersAndValues;
+  HashMap<int, String> traitOrdersAndValues;
 
   Observation({required this.order, required this.traitOrdersAndValues});
 

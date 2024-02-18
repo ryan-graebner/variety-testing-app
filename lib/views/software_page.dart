@@ -22,17 +22,12 @@ class SoftwarePage extends StatelessWidget {
                     Text("Data Source", style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by land grant universities, the USDA, and private breeding companies.\n "),
+                        child: Text("Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n "),
                       )
                     ],),
                     const Row(children: [
                       Flexible(
-                        child: Text("The trials serve as a crucial resource to help farmers know which varieties will work best in their system, increasing the efficiency of agriculture in Oregon.\n"),                       
-                        )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("The Data within this app is available online at:"),
+                        child: Text("The data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:"),
                       )
                     ],),
                     // Inkwell and url_launcher added to make hyperlink clickable
@@ -88,49 +83,13 @@ class SoftwarePage extends StatelessWidget {
                     Text("Acknowledgment", style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("This app was produced as a Capstone Project for the Oregon State University School of Computer Science by the following team:\n"),
-                      )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("Dr. Ryan Graebner - School of Agricultural Sciences"),
-                      )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("Anna Level - Computer Science Student"),
-                      )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("Andrew Wallace - Computer Science Student"),
+                        child: Text("This app was produced by Anna Level and Andrew Wallace as a Capstone Project at Oregon State University. This project was mentored by Dr. Ryan Graebner.\n"),
                       )
                     ],),
                   ],
                 ),
               ),
             ),
-            // APP CITATION card - add updated ciation once publishing is solidifed
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text("App Citation", style: Theme.of(context).textTheme.bodyLarge,),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("The citation for this app if you use it in your own work is below:\n"),
-                      )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("Oregon State University. (2024) OSU Wheat and Barley Variety Testing (Version 1.0.0)[Mobile App]"),
-                      )
-                    ],)
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),
