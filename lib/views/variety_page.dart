@@ -17,11 +17,12 @@ class _VarietyPageState extends State<VarietyPage> {
   IconData _releasedToggle = Icons.toggle_off;
   Color _releasedToggleColor = Colors.grey;
   bool _filtersVisible = false;
-  bool _tableVisible = false;
 
   double calcColSize(int size) {
-    if (17.5 * size > 200.0) {
-      return 200.0;
+    if (17.5 * size > 175.0) {
+      return 175.0;
+    } else if (17.5 * size < 100){
+      return 100.0;
     } else {
       return 17.5 * size;
     }
@@ -67,8 +68,9 @@ class _VarietyPageState extends State<VarietyPage> {
                           );
                         }).toList(),
                         onSelected: (String? value) {
-                          _tableVisible = false;
                           context.read<AppState>().changeDataSet(value);
+                          _filtersVisible = false;
+                          _showDataIcon = Icons.chevron_right;
                         },
                         textStyle: Theme.of(context).textTheme.bodyMedium,
                       ),
@@ -111,23 +113,6 @@ class _VarietyPageState extends State<VarietyPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: 120.0,
-                      child: FloatingActionButton(
-                          onPressed: () {
-                            setState(() {
-                              // Hide the traits filters, reset the button and make the table visible.
-                              _filtersVisible = false;
-                              _showDataIcon = Icons.chevron_right;
-                              _tableVisible = true;
-                            });
-                          },
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
-                          child: const Text("Show Data", style: TextStyle(fontSize: 14.0),)
-                      ),
-                    )
                   ]),
             ),
           ),
@@ -145,13 +130,14 @@ class _VarietyPageState extends State<VarietyPage> {
                               onTap: () {
                                 // Handles changing the App icon and showing/hding the filter panel
                                 setState(() {
-                                  // TODO: Link toggle to actually only filter released.
                                   if (_releasedToggle == Icons.toggle_off) {
                                     _releasedToggle = Icons.toggle_on;
                                     _releasedToggleColor = const Color.fromARGB(255, 215, 64, 9);
+                                    context.read<AppState>().toggleReleased();
                                   } else {
                                     _releasedToggle = Icons.toggle_off;
                                     _releasedToggleColor = Colors.grey;
+                                    context.read<AppState>().toggleReleased();
                                   }
                                 });
                               },
@@ -168,7 +154,9 @@ class _VarietyPageState extends State<VarietyPage> {
                               ),
                             ),
                             SizedBox(
-                              height: 200.0,
+                              height: MediaQuery.of(context).orientation == Orientation.landscape 
+                                ? 100.0
+                                : 200.0,
                               child: ListView.builder(
                                   itemCount: context.watch<AppState>().currentTraits.length,
                                   itemBuilder: (context, index) {
@@ -192,7 +180,7 @@ class _VarietyPageState extends State<VarietyPage> {
           // DATA Table Widget
           Flexible(
             child: Visibility(
-                visible: !context.watch<AppState>().isLoading && _tableVisible,
+                visible: !context.watch<AppState>().isLoading,
                 child: DataTable2(
                     dataRowHeight: 80.0,
                     minWidth: 3000.0,
@@ -201,20 +189,27 @@ class _VarietyPageState extends State<VarietyPage> {
                     empty: const Text("Empty"),
                     dataRowColor: MaterialStateProperty.resolveWith<Color?>(
                             (Set<MaterialState> states) {return Colors.grey.withOpacity(0.3); }),
-                    columns: List<DataColumn2>.generate(context.watch<AppState>().currentDataSet.traits.length, (index) =>
+                    columns: List<DataColumn2>.generate(context.watch<AppState>().visibleDataSet.traits.length, (index) =>
                         DataColumn2(
-                          label: Text(context.watch<AppState>().currentDataSet.traits[index].name ?? "",
+                          label: Text(context.watch<AppState>().visibleDataSet.traits[index].name ?? "",
                             style: Theme.of(context).textTheme.bodyLarge,
                             softWrap: true,
                           ),
-                          fixedWidth: calcColSize(context.watch<AppState>().currentDataSet.traits[index].name.length ?? 10),
+                          fixedWidth: calcColSize(context.watch<AppState>().visibleDataSet.traits[index].name.length ?? 10),
                         ),
                     ),
-                    rows: List<DataRow2>.generate(context.watch<AppState>().currentDataSet.observations.length, (rowIndex) => DataRow2(
-                        cells: List<DataCell>.generate(context.watch<AppState>().currentDataSet.observations[rowIndex].traitOrdersAndValues.length, (cellIndex) =>
+                    rows: List<DataRow2>.generate(context.watch<AppState>().visibleDataSet.observations.length, (rowIndex) => 
+                    DataRow2(
+                        color: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                          if (rowIndex.isEven) {
+                            return Colors.grey.withOpacity(0.3);
+                          }
+                          return null;
+                        }),
+                        cells: List<DataCell>.generate(context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues.length, (cellIndex) =>
                             DataCell(
                                 Text(
-                                  '${context.watch<AppState>().currentDataSet.observations[rowIndex].traitOrdersAndValues[cellIndex + 1] ?? ""}',
+                                  '${context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues[cellIndex] ?? ""}',
                                   style: Theme.of(context).textTheme.bodyMedium,
                                   softWrap: true,
                                 )

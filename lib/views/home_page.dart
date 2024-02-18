@@ -38,7 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      // Dont show Top Bar in Landscape.
+      appBar: 
+      MediaQuery.of(context).orientation == Orientation.landscape 
+        ? null
+        : AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         // Add White Color to overall style
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
@@ -48,7 +52,11 @@ class _HomePageState extends State<HomePage> {
       // Body is shifted between pages based on bottom pressed button
       body: _pages[currentPageIndex],
       // Bottom Nav bar with 3 icons.
-      bottomNavigationBar: BottomNavigationBar(
+      // Dont show Nav bar in landscape
+      bottomNavigationBar: 
+      MediaQuery.of(context).orientation == Orientation.landscape 
+        ? null
+        : BottomNavigationBar(
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.analytics, size: 30),
