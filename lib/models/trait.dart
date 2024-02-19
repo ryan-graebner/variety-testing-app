@@ -10,7 +10,7 @@ class Trait {
   Trait.fromJson(Map<String, dynamic> json)
       : order = json['order'],
         name = json['name'],
-        columnVisibility = json['columnVisibility'];
+        columnVisibility = ColumnVisibility.fromNumber(json['columnVisibility']);
 
   Map<String, dynamic> toJson() {
     return {

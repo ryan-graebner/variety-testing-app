@@ -6,14 +6,16 @@ class Observation {
 
   Observation({required this.order, required this.traitOrdersAndValues});
 
-  Observation.fromJson(Map<String, dynamic> json)
-      : order = json['order'],
-        traitOrdersAndValues = json['traitOrdersAndValues'];
+  factory Observation.fromJson(Map<String, dynamic> json) {
+    final order = json['order'] as int;
+    HashMap<int, String> traitOrdersAndValues = HashMap<int, String>.from(json['traitOrdersAndValues'].map((k, v) => MapEntry(int.tryParse(k), v as String)));
+    return Observation(order: order, traitOrdersAndValues: traitOrdersAndValues);
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'order': order,
-      'traitOrdersAndValues': traitOrdersAndValues.map((k, v) => MapEntry(k.toString(), v)),
+      'traitOrdersAndValues': traitOrdersAndValues.map((k, v) => MapEntry(k, v)),
     };
   }
 }
