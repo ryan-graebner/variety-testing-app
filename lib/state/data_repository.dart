@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/local_storage_service.dart';
@@ -8,8 +10,8 @@ import '../models/trait.dart';
 class DataRepository extends ChangeNotifier {
   final CSVManager csvManager;
   final LocalStorageService localStorageService;
-  String? lastUpdated = '2022'; // TODO: get this from local storage
-  String? dataYear = '2022'; // TODO: get from local storage
+  String? lastUpdated;
+  String? dataYear;
 
   List<DataSet> dataSets = [];
 
@@ -18,19 +20,26 @@ class DataRepository extends ChangeNotifier {
   // DataRepository will initialize and coordinate all of the data fetching.
   Future<void> initializeData() async {
     try {
+      dataYear = await retrieveDataYear();
+      lastUpdated = await retrieveLastUpdated();
+
       await csvManager.getIndexFileData();
       String newLastUpdated = csvManager.getLastUpdated();
       String newDataYear = csvManager.getDataYear();
       if (newLastUpdated == lastUpdated && newDataYear == dataYear) {
-        // TODO: Load from Local Storage
-        // TODO: If can't load, throw an exception
+        dataSets = await retrieveStateFromLocalStorage() ?? [];
+        if (dataSets.isEmpty) {
+          // TODO: throw an exception
+        }
         return;
       }
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
+      saveDataYear(newDataYear);
+      saveLastUpdated(newLastUpdated);
 
       dataSets = await csvManager.parseDataSets();
-      // TODO: load datasets into local storage
+      await saveStateToLocalStorage(dataSets);
     } catch (error) {
       // TODO: Display the error in the UI if this happens
       if (kDebugMode) {
@@ -43,12 +52,40 @@ class DataRepository extends ChangeNotifier {
     }
   }
 
-  Future<void> saveStateToLocalStorage() async {
-    // TODO: after figuring out how to store the entire app state.
+  Future<String?> retrieveDataYear() async {
+    return localStorageService.retrieveDataYear();
   }
 
-  Future<String?> retrieveStateFromLocalStorage() async {
-    return await localStorageService.retrieveData();
+  Future<String?> retrieveLastUpdated() {
+    return localStorageService.retrieveLastUpdated();
+  }
+
+  Future<void> saveDataYear(String dataYear) async {
+    localStorageService.storeDataYear(dataYear);
+  }
+
+  Future<void> saveLastUpdated(String lastUpdated) async {
+    localStorageService.storeLastUpdated(lastUpdated);
+  }
+
+  Future<List<DataSet>?> retrieveStateFromLocalStorage() async {
+    final serializedState = await localStorageService.retrieveData();
+    if (serializedState != null) {
+      List<dynamic> rawData = jsonDecode(serializedState);
+      List<DataSet> deserializedData = [];
+
+      for (final set in rawData) {
+        DataSet finalSet = DataSet.fromJson(set as Map<String, dynamic>);
+        deserializedData.add(finalSet);
+      }
+      return deserializedData;
+    }
+    return null;
+  }
+
+  Future<void> saveStateToLocalStorage(List<DataSet> appState) async {
+    final serializedState = jsonEncode(appState);
+    await localStorageService.storeData(serializedState);
   }
 
   static void debugPrint(List<DataSet> data) {

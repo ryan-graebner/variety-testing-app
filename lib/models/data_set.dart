@@ -9,17 +9,31 @@ class DataSet {
 
   DataSet({required this.order, required this.name, required this.traits, required this.observations});
 
-  DataSet.fromJson(Map<String, dynamic> json)
-      : order = json['order'],
-        name = json['name'],
-        traits = json['traits'],
-        observations = json['observations'];
+  factory DataSet.fromJson(Map<String, dynamic> json) {
+    List<Trait> traits = [];
+    List<Observation> observations = [];
+
+    for (final trait in json['traits']) {
+      Trait deserializedTrait = Trait.fromJson(trait as Map<String, dynamic>);
+      print(deserializedTrait);
+      traits.add(deserializedTrait);
+    }
+    print("done");
+
+    for (final observation in json['observations']) {
+      Observation deserializedObservation = Observation.fromJson(observation as Map<String, dynamic>);
+      print(deserializedObservation);
+      observations.add(deserializedObservation);
+    }
+
+    return DataSet(order: json['order'], name: json['name'], traits: traits, observations: observations);
+  }
 
   Map<String, dynamic> toJson() {
     return {
       'order': order,
       'name': name,
-      'traits': traits.map((t) => t.toJson()).toList(),
+      'traits': traits.map((t) => toJson()).toList(),
       'observations': observations.map((o) => o.toJson()).toList(),
     };
   }
