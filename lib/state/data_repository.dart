@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/local_storage_service.dart';
@@ -28,10 +27,9 @@ class DataRepository extends ChangeNotifier {
       String newDataYear = csvManager.getDataYear();
       if (newLastUpdated == lastUpdated && newDataYear == dataYear) {
         dataSets = await retrieveStateFromLocalStorage() ?? [];
-        if (dataSets.isEmpty) {
-          // TODO: throw an exception
+        if (dataSets.isNotEmpty) {
+          return;
         }
-        return;
       }
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
@@ -40,15 +38,13 @@ class DataRepository extends ChangeNotifier {
 
       dataSets = await csvManager.parseDataSets();
       await saveStateToLocalStorage(dataSets);
+      if (dataSets.isEmpty) {
+        throw Exception("Could not load datasets or retrieve from your device's storage.");
+      }
     } catch (error) {
-      // TODO: Display the error in the UI if this happens
       if (kDebugMode) {
         print(error.toString());
       }
-      //  If can't connect and there is data in LocalStorage:
-      //    - Get stored AppState from Local storage and deserialize
-      //  If can't connect and no data in LocalStorage:
-      //    - Throw exception that should be handled at app top level. The user has to be connected at first sync
     }
   }
 
