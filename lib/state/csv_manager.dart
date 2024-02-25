@@ -94,7 +94,7 @@ class CSVManager {
     List<String> traitNames = getCellValues(dataRows[2]).map((e) => e.trim()).toList();
 
     if (!columnVisibilities.every((visibility) => int.tryParse(visibility) != null)) {
-      // Maybe the visilibities are row 2 instead of row 1?
+      // Maybe the visibilities are row 2 instead of row 1?
       bool isRow2Visibilities = traitNames.every((visibility) => int.tryParse(visibility) != null);
       if (isRow2Visibilities) {
         List<String> temp = columnVisibilities;

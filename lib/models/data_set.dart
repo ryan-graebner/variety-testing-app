@@ -15,14 +15,11 @@ class DataSet {
 
     for (final trait in json['traits']) {
       Trait deserializedTrait = Trait.fromJson(trait as Map<String, dynamic>);
-      print(deserializedTrait);
       traits.add(deserializedTrait);
     }
-    print("done");
 
     for (final observation in json['observations']) {
       Observation deserializedObservation = Observation.fromJson(observation as Map<String, dynamic>);
-      print(deserializedObservation);
       observations.add(deserializedObservation);
     }
 

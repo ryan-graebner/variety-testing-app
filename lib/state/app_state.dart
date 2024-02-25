@@ -81,7 +81,7 @@ class AppState extends ChangeNotifier {
     DataSet visibleDataSet = DataSet(order: 1, name: aSet.name, traits: [], observations: []);
     List<Trait> hiddenColumns = [];
     List<int> shownColumns = [];
-    Trait? relasedTrait;
+    Trait? releasedTrait;
     int traitOrderHeaders = 0;
     // Loop through and add columns which are shown.
     for (int x = 0; x < aSet.traits.length; x++) {
@@ -124,7 +124,7 @@ class AppState extends ChangeNotifier {
       // Never show Released Column
       } else if (aSet.traits[x].columnVisibility == ColumnVisibility.releasedColumn){
         hiddenColumns.add(aSet.traits[x]);
-        relasedTrait = aSet.traits[x];
+        releasedTrait = aSet.traits[x];
       } else {
         hiddenColumns.add(aSet.traits[x]);
       }
@@ -132,13 +132,13 @@ class AppState extends ChangeNotifier {
     int orderCounter = 0;
     int traitOrder = 0;
     List<(int, String)> obTraits = [];
-    // Extract traits to a list - sort by the key and then add as obersvations to the blank data set
+    // Extract traits to a list - sort by the key and then add as observations to the blank data set
     for (Observation obs in aSet.observations) {
       HashMap<int, String> updatedTraits = HashMap<int, String>();
       // Filter out released
       if (releasedToggle == true) {
-        if (obs.traitOrdersAndValues[relasedTrait!.order] == "0") {
-          // Skip adding this trait because it isnt released.
+        if (obs.traitOrdersAndValues[releasedTrait!.order] == "0") {
+          // Skip adding this trait because it isn't released.
           continue;
         }
       }

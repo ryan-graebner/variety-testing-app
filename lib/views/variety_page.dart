@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:data_table_2/data_table_2.dart';
+import 'package:variety_testing_app/utilities/ui_config.dart';
 import '../state/app_state.dart';
 import 'loading_view.dart';
 
@@ -15,16 +16,18 @@ class VarietyPage extends StatefulWidget {
 class _VarietyPageState extends State<VarietyPage> {
   IconData _showDataIcon = Icons.chevron_right;
   IconData _releasedToggle = Icons.toggle_off;
-  Color _releasedToggleColor = Colors.grey;
+  Color _releasedToggleColor = UIConfig.dividerGrey;
   bool _filtersVisible = false;
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _hScrollController = ScrollController();
 
   double calcColSize(int size) {
-    if (17.5 * size > 175.0) {
-      return 175.0;
-    } else if (17.5 * size < 100){
-      return 100.0;
+    if (20.0 * size > 170.0) {
+      return 170.0;
+    } else if (20.0 * size < 120){
+      return 120.0;
     } else {
-      return 17.5 * size;
+      return 20.0 * size;
     }
   }
 
@@ -39,104 +42,100 @@ class _VarietyPageState extends State<VarietyPage> {
         children: [
           // Rows to hold environment label and dropdown
           Container(
-            color: Colors.grey.withOpacity(0.3),
+            decoration: BoxDecoration(
+              color: UIConfig.secondaryGrey,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                  offset: const Offset(0, 2), // changes position of shadow
+                ),
+              ],
+            ),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
+              child: Column(
                 children: [
-                  const Text("Environment",
-                      style: TextStyle(
-                          color: Color(0xFF000000),
-                          fontFamily: 'openSans',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold
-                      )
-                  ),
-                  // Create the dropdown based off the list of environments.
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Container(
-                      color: Colors.white,
-                      child: DropdownMenu<String>(
-                        width: MediaQuery.of(context).size.width - 116.0,
-                        initialSelection: context.watch<AppState>().dropdownValues.firstOrNull,
-                        dropdownMenuEntries: context.watch<AppState>().dropdownValues.map<DropdownMenuEntry<String>>((String value) {
-                          return DropdownMenuEntry<String>(
-                              value: value,
-                              label: value
-                          );
-                        }).toList(),
-                        onSelected: (String? value) {
-                          context.read<AppState>().changeDataSet(value);
-                          _filtersVisible = false;
-                          _showDataIcon = Icons.chevron_right;
-                        },
-                        textStyle: Theme.of(context).textTheme.bodyMedium,
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      const Text("Environment",
+                          style: TextStyle(
+                              color: Color(0xFF000000),
+                              fontFamily: 'openSans',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold
+                          )
                       ),
-                    ),
-                  ),
-                ],),
-            ),
-          ),
-
-          // Container for Show/Hide Traits button and show Data FAB
-          Container(
-            color: Colors.grey.withOpacity(0.3),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // Handles changing the App icon and showing/hding the filter panel
-                        setState(() {
-                          if (_showDataIcon == Icons.chevron_right) {
-                            _showDataIcon = Icons.expand_more;
-                            _filtersVisible = true;
-                          } else {
-                            _showDataIcon = Icons.chevron_right;
-                            _filtersVisible = false;
-                          }
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          const Text("Show/Hide Traits",
-                            style: TextStyle(
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 215, 64, 9)),
+                      // Create the dropdown based off the list of environments.
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Container(
+                          color: Colors.white,
+                          child: DropdownMenu<String>(
+                            width: MediaQuery.of(context).size.width - 116.0,
+                            initialSelection: context.watch<AppState>().dropdownValues.firstOrNull,
+                            dropdownMenuEntries: context.watch<AppState>().dropdownValues.map<DropdownMenuEntry<String>>((String value) {
+                              return DropdownMenuEntry<String>(
+                                  value: value,
+                                  label: value
+                              );
+                            }).toList(),
+                            onSelected: (String? value) {
+                              context.read<AppState>().changeDataSet(value);
+                              _filtersVisible = false;
+                              _showDataIcon = Icons.chevron_right;
+                            },
+                            textStyle: Theme.of(context).textTheme.bodyMedium,
                           ),
-                          Icon(_showDataIcon, size: 24, color: const Color.fromARGB(255, 215, 64, 9)),
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Handles changing the App icon and showing/hiding the filter panel
+                      setState(() {
+                        if (_showDataIcon == Icons.chevron_right) {
+                          _showDataIcon = Icons.expand_more;
+                          _filtersVisible = true;
+                        } else {
+                          _showDataIcon = Icons.chevron_right;
+                          _filtersVisible = false;
+                        }
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        const Text("Show/Hide Traits",
+                          style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                              color: UIConfig.primaryOrange
+                          ),
+                        ),
+                        Icon(_showDataIcon, size: 24, color: UIConfig.primaryOrange),
+                      ],
                     ),
-                  ]),
-            ),
-          ),
+                  ),
 
-          // Visibility for Checkboxes.
-          Visibility(
-              visible: _filtersVisible,
-              child: Container(
-                  color: Colors.grey.withOpacity(0.3),
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                  // Visibility for Checkboxes.
+                  Visibility(
+                      visible: _filtersVisible,
                       child: Column(
                           children: [
                             InkWell(
                               onTap: () {
-                                // Handles changing the App icon and showing/hding the filter panel
+                                // Handles changing the App icon and showing/hiding the filter panel
                                 setState(() {
                                   if (_releasedToggle == Icons.toggle_off) {
                                     _releasedToggle = Icons.toggle_on;
-                                    _releasedToggleColor = const Color.fromARGB(255, 215, 64, 9);
+                                    _releasedToggleColor = UIConfig.primaryOrange;
                                     context.read<AppState>().toggleReleased();
                                   } else {
                                     _releasedToggle = Icons.toggle_off;
-                                    _releasedToggleColor = Colors.grey;
+                                    _releasedToggleColor = UIConfig.dividerGrey;
                                     context.read<AppState>().toggleReleased();
                                   }
                                 });
@@ -144,79 +143,116 @@ class _VarietyPageState extends State<VarietyPage> {
                               child: Row(
                                 children: [
                                   Icon(_releasedToggle, size: 30, color: _releasedToggleColor),
-                                  const Text("Released Only",
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
+                                  Text("Released Only",
+                                    style: Theme.of(context).textTheme.bodyMedium
                                   ),
                                 ],
                               ),
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).orientation == Orientation.landscape 
-                                ? 100.0
-                                : 200.0,
+                              height: MediaQuery.of(context).orientation == Orientation.landscape
+                                  ? 100.0
+                                  : 200.0,
                               child: ListView.builder(
                                   itemCount: context.watch<AppState>().currentTraits.length,
                                   itemBuilder: (context, index) {
-                                    return CheckboxListTile(
-                                      value: context.watch<AppState>().currentTraits[index].isChecked,
-                                      title: Text(context.watch<AppState>().currentTraits[index].traitName),
-                                      onChanged: (bool? checked) {
+                                    return InkWell(
+                                      onTap: () {
                                         context.read<AppState>().toggleCheckbox(index);
                                       },
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      child: Row(
+                                          children: [
+                                            Checkbox(
+                                                value: context.watch<AppState>().currentTraits[index].isChecked,
+                                                onChanged: (bool? checked) {
+                                                  context.read<AppState>().toggleCheckbox(index);
+                                                },
+                                              visualDensity: VisualDensity.compact,
+                                            ),
+                                            Expanded(
+                                                child: Text(context.watch<AppState>().currentTraits[index].traitName)
+                                            )
+                                      ]),
                                     );
                                   }),
                             )
                           ]
                       )
                   )
-              )
+                ],
+              ),
+            ),
           ),
 
           // TODO: Figure out a better way than all of the context.watch statements
           // DATA Table Widget
-          Flexible(
-            child: Visibility(
-                visible: !context.watch<AppState>().isLoading,
-                child: DataTable2(
-                    dataRowHeight: 80.0,
-                    minWidth: 3000.0,
-                    fixedLeftColumns: 1,
-                    fixedTopRows: 1,
-                    empty: const Text("Empty"),
-                    dataRowColor: MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {return Colors.grey.withOpacity(0.3); }),
-                    columns: List<DataColumn2>.generate(context.watch<AppState>().visibleDataSet.traits.length, (index) =>
-                        DataColumn2(
-                          label: Text(context.watch<AppState>().visibleDataSet.traits[index].name ?? "",
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            softWrap: true,
-                          ),
-                          fixedWidth: calcColSize(context.watch<AppState>().visibleDataSet.traits[index].name.length ?? 10),
+          ScrollConfiguration(
+            behavior: const ScrollBehavior()
+                .copyWith(physics: const ClampingScrollPhysics()),
+            child:
+            Flexible(
+                child: Visibility(
+                  visible: !context.watch<AppState>().isLoading,
+                  child:
+                  Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          dividerColor: Colors.green,
                         ),
-                    ),
-                    rows: List<DataRow2>.generate(context.watch<AppState>().visibleDataSet.observations.length, (rowIndex) => 
-                    DataRow2(
-                        color: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-                          if (rowIndex.isEven) {
-                            return Colors.grey.withOpacity(0.3);
-                          }
-                          return null;
-                        }),
-                        cells: List<DataCell>.generate(context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues.length, (cellIndex) =>
-                            DataCell(
-                                Text(
-                                  '${context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues[cellIndex] ?? ""}',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                  softWrap: true,
+                        child: DataTable2(
+                            columnSpacing: 8,
+                            fixedColumnsColor: Colors.grey.withOpacity(0.3),
+                            horizontalMargin: 8,
+                            fixedLeftColumns: 1,
+                            fixedTopRows: 1,
+                            minWidth: 3000,
+                            scrollController: _scrollController,
+                            horizontalScrollController: _hScrollController,
+                            isVerticalScrollBarVisible: false,
+                            isHorizontalScrollBarVisible: false,
+                            headingRowDecoration: const BoxDecoration(border: Border(bottom: BorderSide(color: UIConfig.dividerGrey))),
+                            dividerThickness: 1,
+                            decoration: const BoxDecoration(border: Border(bottom: BorderSide(color: Colors.green))),
+                            empty: const Text("Empty"),
+                            dataRowColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) => UIConfig.secondaryGrey),
+                            columns: List<DataColumn2>.generate(context.watch<AppState>().visibleDataSet.traits.length, (index) =>
+                                DataColumn2(
+                                  label: Center(
+                                    child: Text(context.watch<AppState>().visibleDataSet.traits[index].name ?? "",
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                      softWrap: true,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  fixedWidth: calcColSize(context.watch<AppState>().visibleDataSet.traits[index].name.length ?? 0),
+                                ),
+                            ),
+                            rows: List<DataRow2>.generate(context.watch<AppState>().visibleDataSet.observations.length, (rowIndex) =>
+                                DataRow2(
+                                  color: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+                                    if (!rowIndex.isEven) {
+                                      return UIConfig.secondaryGrey;
+                                    }
+                                    return null;
+                                  }),
+                                  cells: List<DataCell>.generate(context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues.length, (cellIndex) =>
+                                      DataCell(
+                                          Center(
+                                            child: Text(
+                                              '${context.watch<AppState>().visibleDataSet.observations[rowIndex].traitOrdersAndValues[cellIndex] ?? ""}',
+                                              style: Theme.of(context).textTheme.bodyMedium,
+                                              softWrap: true,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          )
+                                      )
+                                  ),
                                 )
                             )
-                        )
-                    )
-                    )
+                        ),
+                      )
+                  ),
                 )
             ),
           )
