@@ -61,6 +61,7 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                             child: Row(
                                 children: [
                                   Checkbox(
+                                    activeColor: UIConfig.primaryOrange,
                                     value: state.currentTraits[index].isChecked,
                                     onChanged: (bool? checked) {
                                       context.read<AppState>().toggleCheckbox(

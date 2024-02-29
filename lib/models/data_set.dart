@@ -30,7 +30,7 @@ class DataSet {
     return {
       'order': order,
       'name': name,
-      'traits': traits.map((t) => toJson()).toList(),
+      'traits': traits.map((t) => t.toJson()).toList(),
       'observations': observations.map((o) => o.toJson()).toList(),
     };
   }

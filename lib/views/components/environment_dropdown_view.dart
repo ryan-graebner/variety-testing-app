@@ -29,12 +29,16 @@ class EnvironmentDropdownView extends StatelessWidget {
                   menuStyle: MenuStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color?>((
                         Set<MaterialState> states) => Colors.white,),
+                    visualDensity: VisualDensity.compact,
                   ),
                   initialSelection: state.dropdownValues.firstOrNull,
                   inputDecorationTheme: const InputDecorationTheme(
+                    constraints: BoxConstraints(maxHeight: 40.0),
+                    contentPadding: EdgeInsets.only(left: 8.0),
                     border: OutlineInputBorder(),
                     filled: true,
                     fillColor: Colors.white,
+                    isDense: true,
                   ),
                   expandedInsets: EdgeInsets.zero,
                   dropdownMenuEntries: state.dropdownValues.map<DropdownMenuEntry<String>>((String value) {

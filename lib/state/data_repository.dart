@@ -71,7 +71,7 @@ class DataRepository extends ChangeNotifier {
       List<DataSet> deserializedData = [];
 
       for (final set in rawData) {
-        DataSet finalSet = DataSet.fromJson(set as Map<String, dynamic>);
+        DataSet finalSet = DataSet.fromJson(jsonDecode(set) as Map<String, dynamic>);
         deserializedData.add(finalSet);
       }
       return deserializedData;
@@ -80,8 +80,15 @@ class DataRepository extends ChangeNotifier {
   }
 
   Future<void> saveStateToLocalStorage(List<DataSet> appState) async {
-    final serializedState = jsonEncode(appState);
-    await localStorageService.storeData(serializedState);
+    List<String> toConvert = [];
+
+    for (DataSet d in appState) {
+      final serializedSet = jsonEncode(d.toJson());
+      toConvert.add(serializedSet);
+    }
+
+    final serializedData = jsonEncode(toConvert);
+    await localStorageService.storeData(serializedData);
   }
 
   static void debugPrint(List<DataSet> data) {

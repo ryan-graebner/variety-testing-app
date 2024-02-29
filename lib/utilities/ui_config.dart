@@ -8,6 +8,9 @@ class UIConfig {
   static final appTheme = ThemeData(
     primaryColor: UIConfig.primaryOrange,
     dividerTheme: const DividerThemeData(color: dividerGrey),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: UIConfig.primaryOrange,
+    ),
     textTheme: textTheme,
     useMaterial3: false,
   );
@@ -29,12 +32,12 @@ class UIConfig {
           color: Color(0xFF000000),
           fontFamily: 'openSans',
           fontWeight: FontWeight.bold,
-          fontSize: 15.0
+          fontSize: 14.0
       ),
       bodyMedium: TextStyle(
         color: Color(0xFF000000),
         fontFamily: 'openSans',
-        fontSize: 15.0,
+        fontSize: 14.0,
       )
   );
 }

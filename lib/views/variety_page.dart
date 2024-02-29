@@ -46,7 +46,9 @@ class _VarietyPageState extends State<VarietyPage> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: MediaQuery.of(context).orientation == Orientation.landscape
+                      ? const EdgeInsets.only(left: 24.0, top: 16.0, right: 24.0, bottom: 8.0)
+                      : const EdgeInsets.only(left: 16.0, top: 16.0, right: 16.0, bottom: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -58,7 +60,7 @@ class _VarietyPageState extends State<VarietyPage> {
                         },
                       ),
 
-                      const SizedBox(height: 16.0),
+                      const SizedBox(height: 8.0),
 
                       ShowTraitsButton(
                         icon: _showDataIcon,
@@ -90,11 +92,7 @@ class _VarietyPageState extends State<VarietyPage> {
                 Flexible(
                     child: Visibility(
                       visible: !state.isLoading,
-                      child:
-                      const Padding(
-                          padding: EdgeInsets.only(top: 16.0),
-                          child: VarietyDataTable()
-                      ),
+                      child: const VarietyDataTable(),
                     )
                 ),
               )
