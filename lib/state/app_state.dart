@@ -44,6 +44,7 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> retryDataLoad() async {
+    error = null;
     isLoading = true;
     await initializeData();
   }

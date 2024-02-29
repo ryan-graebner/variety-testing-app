@@ -12,6 +12,7 @@ class EnvironmentDropdownView extends StatelessWidget {
         builder: (BuildContext context, AppState state, Widget? child) {
           return Row(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text("Environment",
                   style: TextStyle(
@@ -21,23 +22,30 @@ class EnvironmentDropdownView extends StatelessWidget {
                       fontWeight: FontWeight.bold
                   )
               ),
-              // Create the dropdown based off the list of environments.
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Container(
-                  color: Colors.white,
-                  child: DropdownMenu<String>(
-                    width: MediaQuery.of(context).size.width - 116.0,
-                    initialSelection: state.dropdownValues.firstOrNull,
-                    dropdownMenuEntries: state.dropdownValues.map<DropdownMenuEntry<String>>((String value) {
-                      return DropdownMenuEntry<String>(
-                          value: value,
-                          label: value
-                      );
-                    }).toList(),
-                    onSelected: onSelected,
-                    textStyle: Theme.of(context).textTheme.bodyMedium,
+              const SizedBox(width: 8.0),
+              // Create the dropdown based off the list of environments
+              Expanded(
+                child: DropdownMenu<String>(
+                  menuStyle: MenuStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith<Color?>((
+                        Set<MaterialState> states) => Colors.white,),
                   ),
+                  initialSelection: state.dropdownValues.firstOrNull,
+                  inputDecorationTheme: const InputDecorationTheme(
+                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                  ),
+                  expandedInsets: EdgeInsets.zero,
+                  dropdownMenuEntries: state.dropdownValues.map<DropdownMenuEntry<String>>((String value) {
+                    return DropdownMenuEntry<String>(
+                        value: value,
+                        label: value,
+                        labelWidget: Text(value, softWrap: true, overflow: TextOverflow.ellipsis,)
+                    );
+                  }).toList(),
+                  onSelected: onSelected,
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ],

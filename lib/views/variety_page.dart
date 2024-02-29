@@ -46,8 +46,9 @@ class _VarietyPageState extends State<VarietyPage> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       EnvironmentDropdownView(
                         onSelected: (String? value) {
@@ -56,6 +57,8 @@ class _VarietyPageState extends State<VarietyPage> {
                           _showDataIcon = Icons.chevron_right;
                         },
                       ),
+
+                      const SizedBox(height: 16.0),
 
                       ShowTraitsButton(
                         icon: _showDataIcon,
