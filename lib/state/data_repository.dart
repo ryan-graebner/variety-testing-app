@@ -21,16 +21,18 @@ class DataRepository extends ChangeNotifier {
     try {
       dataYear = await retrieveDataYear();
       lastUpdated = await retrieveLastUpdated();
+      dataSets = await retrieveStateFromLocalStorage() ?? [];
 
       await csvManager.getIndexFileData();
       String newLastUpdated = csvManager.getLastUpdated();
       String newDataYear = csvManager.getDataYear();
-      if (newLastUpdated == lastUpdated && newDataYear == dataYear) {
-        dataSets = await retrieveStateFromLocalStorage() ?? [];
+
+      if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
         if (dataSets.isNotEmpty) {
           return;
         }
       }
+
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
       saveDataYear(newDataYear);
