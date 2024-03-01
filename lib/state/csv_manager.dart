@@ -16,24 +16,28 @@ class CSVManager {
   CSVManager(this.httpClient);
 
   Future<List<String>> getIndexFileData() async {
-    final indexData = await fetchCSV(Config.indexUrl);
-    indexFileRows = indexData.split(RegExp(r'(\r\n|\r|\n)'));
+    try {
+      final indexData = await fetchCSV(Config.indexUrl);
+      indexFileRows = indexData.split(RegExp(r'(\r\n|\r|\n)'));
 
-    if (indexFileRows.length < 4) {
-      throw Exception(
-          'Could not parse index CSV. Make sure it has at least 3 rows.');
+      if (indexFileRows.length < 4) {
+        throw Exception(
+            'Could not parse index CSV. Make sure it has at least 3 rows.');
+      }
+      return indexFileRows;
+    } catch (error) {
+      return [];
     }
-    return indexFileRows;
   }
 
   String getLastUpdated() {
     // Row 0: last updated
-    return indexFileRows[0].trim();
+    return indexFileRows.isNotEmpty ? indexFileRows[0].trim() : "";
   }
 
   String getDataYear() {
     // Row 1: year of data
-    return indexFileRows[1].trim();
+    return indexFileRows.isNotEmpty ? indexFileRows[1].trim() : "";
   }
 
   Future<List<DataSet>> parseDataSets() async {
@@ -94,7 +98,7 @@ class CSVManager {
     List<String> traitNames = getCellValues(dataRows[2]).map((e) => e.trim()).toList();
 
     if (!columnVisibilities.every((visibility) => int.tryParse(visibility) != null)) {
-      // Maybe the visilibities are row 2 instead of row 1?
+      // Maybe the visibilities are row 2 instead of row 1?
       bool isRow2Visibilities = traitNames.every((visibility) => int.tryParse(visibility) != null);
       if (isRow2Visibilities) {
         List<String> temp = columnVisibilities;

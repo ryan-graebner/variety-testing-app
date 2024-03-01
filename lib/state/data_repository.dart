@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
 import 'package:variety_testing_app/state/local_storage_service.dart';
@@ -22,17 +21,18 @@ class DataRepository extends ChangeNotifier {
     try {
       dataYear = await retrieveDataYear();
       lastUpdated = await retrieveLastUpdated();
+      dataSets = await retrieveStateFromLocalStorage() ?? [];
 
       await csvManager.getIndexFileData();
       String newLastUpdated = csvManager.getLastUpdated();
       String newDataYear = csvManager.getDataYear();
-      if (newLastUpdated == lastUpdated && newDataYear == dataYear) {
-        dataSets = await retrieveStateFromLocalStorage() ?? [];
-        if (dataSets.isEmpty) {
-          // TODO: throw an exception
+
+      if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
+        if (dataSets.isNotEmpty) {
+          return;
         }
-        return;
       }
+
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
       saveDataYear(newDataYear);
@@ -40,15 +40,13 @@ class DataRepository extends ChangeNotifier {
 
       dataSets = await csvManager.parseDataSets();
       await saveStateToLocalStorage(dataSets);
+      if (dataSets.isEmpty) {
+        throw Exception("Could not load datasets or retrieve from your device's storage.");
+      }
     } catch (error) {
-      // TODO: Display the error in the UI if this happens
       if (kDebugMode) {
         print(error.toString());
       }
-      //  If can't connect and there is data in LocalStorage:
-      //    - Get stored AppState from Local storage and deserialize
-      //  If can't connect and no data in LocalStorage:
-      //    - Throw exception that should be handled at app top level. The user has to be connected at first sync
     }
   }
 
@@ -75,7 +73,7 @@ class DataRepository extends ChangeNotifier {
       List<DataSet> deserializedData = [];
 
       for (final set in rawData) {
-        DataSet finalSet = DataSet.fromJson(set as Map<String, dynamic>);
+        DataSet finalSet = DataSet.fromJson(jsonDecode(set) as Map<String, dynamic>);
         deserializedData.add(finalSet);
       }
       return deserializedData;
@@ -84,8 +82,15 @@ class DataRepository extends ChangeNotifier {
   }
 
   Future<void> saveStateToLocalStorage(List<DataSet> appState) async {
-    final serializedState = jsonEncode(appState);
-    await localStorageService.storeData(serializedState);
+    List<String> toConvert = [];
+
+    for (DataSet d in appState) {
+      final serializedSet = jsonEncode(d.toJson());
+      toConvert.add(serializedSet);
+    }
+
+    final serializedData = jsonEncode(toConvert);
+    await localStorageService.storeData(serializedData);
   }
 
   static void debugPrint(List<DataSet> data) {

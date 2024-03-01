@@ -15,7 +15,7 @@ class Observation {
   Map<String, dynamic> toJson() {
     return {
       'order': order,
-      'traitOrdersAndValues': traitOrdersAndValues.map((k, v) => MapEntry(k, v)),
+      'traitOrdersAndValues': traitOrdersAndValues.map((k, v) => MapEntry(k.toString(), v)),
     };
   }
 }
