@@ -12,6 +12,7 @@ class VarietyDataTable extends StatelessWidget {
     return DataTable2(
         columnSpacing: 8,
         fixedColumnsColor: Colors.grey.withOpacity(0.3),
+        dataRowHeight: 38.0,
         horizontalMargin: 8,
         fixedLeftColumns: 1,
         fixedTopRows: 1,
