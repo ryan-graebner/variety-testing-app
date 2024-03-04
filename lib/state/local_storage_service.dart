@@ -34,6 +34,22 @@ class LocalStorageService {
     return appState;
   }
 
+  Future<void> storeColumnState(String columnState) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('columnState', columnState);
+  }
+
+  Future<String?> retrieveColumnState() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? columnState = prefs.getString('columnState');
+    return columnState;
+  }
+
+  Future<void> voidColumnState() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('columnState');
+  }
+
   void eraseData() {
 
   }

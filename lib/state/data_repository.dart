@@ -38,6 +38,8 @@ class DataRepository extends ChangeNotifier {
       saveDataYear(newDataYear);
       saveLastUpdated(newLastUpdated);
 
+      localStorageService.voidColumnState();
+
       dataSets = await csvManager.parseDataSets();
       await saveStateToLocalStorage(dataSets);
       if (dataSets.isEmpty) {

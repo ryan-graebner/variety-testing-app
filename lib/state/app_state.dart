@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:variety_testing_app/models/observation.dart';
@@ -16,6 +17,8 @@ class AppState extends ChangeNotifier {
   DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   DataSet _visibleDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []);
   List<TraitsFilter> _currentTraits = [];
+  // ignore: prefer_collection_literals
+  Map<String, List<TraitsFilter>> _columnState = Map<String, List<TraitsFilter>>();
   bool isLoading = true;
   bool releasedToggle = false;
   String? error;
@@ -33,7 +36,8 @@ class AppState extends ChangeNotifier {
       await dataRepository.initializeData();
       dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
       _currentDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
-      _currentTraits = await initializeTraits();
+      await initializeTraits();
+      _currentTraits = _columnState[_currentDataSet.name]!;
       _visibleDataSet = await createVisibleDataset(_currentDataSet);
       isLoading = false;
       notifyListeners();
@@ -44,27 +48,55 @@ class AppState extends ChangeNotifier {
   }
 
   Future<void> retryDataLoad() async {
-    error = null;
     isLoading = true;
     await initializeData();
   }
 
-  Future<List<TraitsFilter>> initializeTraits() async {
-    List<TraitsFilter> traitFilters = [];
-    for (Trait trait in _currentDataSet.traits) {
-      if (trait.columnVisibility == ColumnVisibility.shownByDefault) {
-        traitFilters.add(TraitsFilter(trait.name, true));
-      } else if (trait.columnVisibility == ColumnVisibility.hiddenByDefault){
-        traitFilters.add(TraitsFilter(trait.name, false));
-      } 
+  Future<void> initializeTraits() async {
+    // Get column state from local storage
+    final serializedColumnState = await dataRepository.localStorageService.retrieveColumnState();
+    // If not null try to create from it.
+    if (serializedColumnState != null) {
+      try {
+          final columnStateFromStorage = jsonDecode(serializedColumnState) as Map<String, dynamic>;
+          columnStateFromStorage.forEach((key, value) {
+            List<TraitsFilter> filterState = [];
+            for (final filter in value) {
+              filterState.add(TraitsFilter.fromJson(filter));
+            }
+            _columnState[key] = filterState;
+          });
+      // If you cant create from it reset column state and create from scratch
+      } catch(e) {
+        // ignore: prefer_collection_literals
+        _columnState = Map<String, List<TraitsFilter>>();
+        createColumnState();
+      }
+    } else {
+      createColumnState();
     }
-    return traitFilters;
+  }
+
+  Future<void> createColumnState () async {
+    for (DataSet ds in dataRepository.dataSets) {
+        List<TraitsFilter> traitFilters = [];
+        for (Trait trait in ds.traits) {
+          if (trait.columnVisibility == ColumnVisibility.shownByDefault) {
+            traitFilters.add(TraitsFilter(trait.name, true));
+          } else if (trait.columnVisibility == ColumnVisibility.hiddenByDefault){
+            traitFilters.add(TraitsFilter(trait.name, false));
+          } 
+        }
+        _columnState[ds.name] = traitFilters;
+      }
+      dataRepository.localStorageService.storeColumnState(jsonEncode(_columnState));
+
   }
 
   Future<void> changeDataSet(String? name) async {
     DataSet dataSet = dataRepository.dataSets.firstWhere((set) => set.name == name);
     _currentDataSet = dataSet;
-    _currentTraits = await initializeTraits();
+    _currentTraits = _columnState[_currentDataSet.name]!;
     _visibleDataSet =  await createVisibleDataset(_currentDataSet);
     notifyListeners();
   }
@@ -72,6 +104,7 @@ class AppState extends ChangeNotifier {
   toggleCheckbox(int index) async {
     currentTraits[index].isChecked = !currentTraits[index].isChecked;
     _visibleDataSet = await createVisibleDataset(_currentDataSet);
+    dataRepository.localStorageService.storeColumnState(jsonEncode(_columnState));
     notifyListeners();
   }
 
@@ -181,5 +214,16 @@ class TraitsFilter {
       );
   String traitName;
   bool isChecked;
-}
 
+  TraitsFilter.fromJson(Map<String, dynamic> json)
+      : traitName = json['traitName'] as String,
+        isChecked = json['isChecked'] as bool;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'traitName': traitName, 
+      'isChecked': isChecked
+      };
+  }
+      
+}
