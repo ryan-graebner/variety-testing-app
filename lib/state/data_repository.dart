@@ -38,7 +38,9 @@ class DataRepository extends ChangeNotifier {
       saveDataYear(newDataYear);
       saveLastUpdated(newLastUpdated);
 
+      // Void Column state and selected data set when the source data changes to prevent any issues.
       localStorageService.voidColumnState();
+      localStorageService.voidCurrentDataSet();
 
       dataSets = await csvManager.parseDataSets();
       await saveStateToLocalStorage(dataSets);
