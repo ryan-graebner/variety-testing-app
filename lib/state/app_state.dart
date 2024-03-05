@@ -10,6 +10,7 @@ import '../models/data_set.dart';
 import '../models/trait.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:collection';
+import '../../utilities/ui_config.dart';
 
 class AppState extends ChangeNotifier {
   DataRepository dataRepository = DataRepository(CSVManager(Client()), LocalStorageService());
@@ -17,11 +18,13 @@ class AppState extends ChangeNotifier {
   DataSet _currentDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []); // TODO: Handle this better
   DataSet _visibleDataSet = DataSet(order: 1, name: 'No Data', traits: [], observations: []);
   List<TraitsFilter> _currentTraits = [];
-  // ignore: prefer_collection_literals
   Map<String, List<TraitsFilter>> _columnState = Map<String, List<TraitsFilter>>();
   bool isLoading = true;
   bool releasedToggle = false;
   String? error;
+  IconData releasedToggleIcon = Icons.toggle_off;
+  Color releasedToggleColor = UIConfig.dividerGrey;
+  String currentDataSetName = "";
 
   get currentDataSet => _currentDataSet;
   get currentTraits => _currentTraits;
@@ -35,9 +38,9 @@ class AppState extends ChangeNotifier {
     try {
       await dataRepository.initializeData();
       dropdownValues = dataRepository.dataSets.map((ds) => ds.name).toList();
-      _currentDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
+      _currentDataSet = await initializeCurrentDataSet();
       await initializeTraits();
-      _currentTraits = _columnState[_currentDataSet.name]!;
+      _currentTraits = _columnState[currentDataSetName]!;
       _visibleDataSet = await createVisibleDataset(_currentDataSet);
       isLoading = false;
       notifyListeners();
@@ -50,6 +53,30 @@ class AppState extends ChangeNotifier {
   Future<void> retryDataLoad() async {
     isLoading = true;
     await initializeData();
+  }
+
+  Future<DataSet> initializeCurrentDataSet() async {
+    final serializedDataSetName = await dataRepository.localStorageService.retrieveCurrentDataSet();
+    if (serializedDataSetName != null) {
+      try {
+        final dataSetNameFromStorage = jsonDecode(serializedDataSetName) as String;
+        DataSet tempDataSet = dataRepository.dataSets.firstWhere((set) => set.name == dataSetNameFromStorage);
+        currentDataSetName = tempDataSet.name;
+        return tempDataSet;
+
+      } catch(e) {
+        DataSet tempDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
+        currentDataSetName = tempDataSet.name;
+        dataRepository.localStorageService.storeCurrentDataSet(jsonEncode(currentDataSetName));
+        return tempDataSet;
+      }
+    } else {
+      DataSet tempDataSet = dataRepository.dataSets.firstOrNull ?? DataSet(order: 1, name: 'No Data', traits: [Trait(order: 0, name: 'none', columnVisibility: ColumnVisibility.alwaysShown)], observations: []);
+      currentDataSetName = tempDataSet.name;
+      dataRepository.localStorageService.storeCurrentDataSet(jsonEncode(currentDataSetName));
+      return tempDataSet;
+    }
+
   }
 
   Future<void> initializeTraits() async {
@@ -68,7 +95,6 @@ class AppState extends ChangeNotifier {
           });
       // If you cant create from it reset column state and create from scratch
       } catch(e) {
-        // ignore: prefer_collection_literals
         _columnState = Map<String, List<TraitsFilter>>();
         createColumnState();
       }
@@ -96,7 +122,9 @@ class AppState extends ChangeNotifier {
   Future<void> changeDataSet(String? name) async {
     DataSet dataSet = dataRepository.dataSets.firstWhere((set) => set.name == name);
     _currentDataSet = dataSet;
-    _currentTraits = _columnState[_currentDataSet.name]!;
+    currentDataSetName = _currentDataSet.name;
+    dataRepository.localStorageService.storeCurrentDataSet(jsonEncode(currentDataSetName));
+    _currentTraits = _columnState[currentDataSetName]!;
     _visibleDataSet =  await createVisibleDataset(_currentDataSet);
     notifyListeners();
   }
@@ -110,6 +138,13 @@ class AppState extends ChangeNotifier {
 
   toggleReleased() async {
     releasedToggle = !releasedToggle;
+    if (releasedToggleIcon == Icons.toggle_off) {
+      releasedToggleIcon = Icons.toggle_on;
+      releasedToggleColor = UIConfig.primaryOrange;
+    } else {
+      releasedToggleIcon = Icons.toggle_off;
+      releasedToggleColor = UIConfig.dividerGrey;
+    }
     _visibleDataSet = await createVisibleDataset(_currentDataSet);
     notifyListeners();
   }
@@ -187,7 +222,6 @@ class AppState extends ChangeNotifier {
           obTraits.add((key, obs.traitOrdersAndValues[key]!.toString()));      
         }
       }
-      
       // Sort the Keys to match to the correct columns and re order.
       obTraits.sort((a, b) => a.$1.compareTo(b.$1));
       for (int x = 0; x < obTraits.length; x++) {
