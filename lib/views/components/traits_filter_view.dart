@@ -12,8 +12,8 @@ class TraitsFilterView extends StatefulWidget {
 }
 
 class _TraitsFilterViewState extends State<TraitsFilterView> {
-  IconData _releasedToggle = Icons.toggle_off;
-  Color _releasedToggleColor = UIConfig.dividerGrey;
+  
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +25,16 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                 onTap: () {
                   // Handles changing the App icon and showing/hiding the filter panel
                   setState(() {
-                    if (_releasedToggle == Icons.toggle_off) {
-                      _releasedToggle = Icons.toggle_on;
-                      _releasedToggleColor = UIConfig.primaryOrange;
+                    if (context.read<AppState>().releasedToggleIcon == Icons.toggle_off) {                     
                       context.read<AppState>().toggleReleased();
                     } else {
-                      _releasedToggle = Icons.toggle_off;
-                      _releasedToggleColor = UIConfig.dividerGrey;
                       context.read<AppState>().toggleReleased();
                     }
                   });
                 },
                 child: Row(
                   children: [
-                    Icon(_releasedToggle, size: 30, color: _releasedToggleColor),
+                    Icon(context.read<AppState>().releasedToggleIcon, size: 30, color: context.read<AppState>().releasedToggleColor),
                     Text("Released Only",
                         style: Theme.of(context).textTheme.bodyMedium
                     ),
