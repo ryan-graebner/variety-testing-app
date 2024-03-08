@@ -21,17 +21,19 @@ class DataRepository extends ChangeNotifier {
     try {
       dataYear = await retrieveDataYear();
       lastUpdated = await retrieveLastUpdated();
-      dataSets = await retrieveStateFromLocalStorage() ?? [];
+      //dataSets = await retrieveStateFromLocalStorage() ?? [];
 
       await csvManager.getIndexFileData();
       String newLastUpdated = csvManager.getLastUpdated();
       String newDataYear = csvManager.getDataYear();
 
-      if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
-        if (dataSets.isNotEmpty) {
-          return;
-        }
-      }
+      // We should use the local data if the data set isn't updated from last time,
+      // or the index file couldn't be fetched.
+      // if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
+      //   if (dataSets.isNotEmpty) {
+      //     return;
+      //   }
+      // }
 
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
@@ -45,7 +47,7 @@ class DataRepository extends ChangeNotifier {
       dataSets = await csvManager.parseDataSets();
       await saveStateToLocalStorage(dataSets);
       if (dataSets.isEmpty) {
-        throw Exception("Could not load datasets or retrieve from your device's storage.");
+        throw Exception("Could not load datasets or retrieve them from your device's storage.");
       }
     } catch (error) {
       if (kDebugMode) {

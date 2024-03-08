@@ -12,9 +12,6 @@ class TraitsFilterView extends StatefulWidget {
 }
 
 class _TraitsFilterViewState extends State<TraitsFilterView> {
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -23,18 +20,13 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
             children: [
               InkWell(
                 onTap: () {
-                  // Handles changing the App icon and showing/hiding the filter panel
                   setState(() {
-                    if (context.read<AppState>().releasedToggleIcon == Icons.toggle_off) {                     
                       context.read<AppState>().toggleReleased();
-                    } else {
-                      context.read<AppState>().toggleReleased();
-                    }
                   });
                 },
                 child: Row(
                   children: [
-                    Icon(context.read<AppState>().releasedToggleIcon, size: 30, color: context.read<AppState>().releasedToggleColor),
+                    Icon(context.read<AppState>().releasedToggle ? Icons.toggle_on : Icons.toggle_off, size: 30, color: context.read<AppState>().releasedToggle ? context.read<UIConfig>().primaryColor : context.read<UIConfig>().dividerColor),
                     Text("Released Only",
                         style: Theme.of(context).textTheme.bodyMedium
                     ),
@@ -45,8 +37,8 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                 height: MediaQuery.of(context).orientation == Orientation.landscape
                     ? 100.0
                     : 200.0,
-                child: Consumer<AppState>(
-                  builder: (BuildContext context, AppState state, Widget? child) {
+                child: Consumer2<AppState, UIConfig>(
+                  builder: (BuildContext context, AppState state, UIConfig uiConfig, Widget? child) {
                     return ListView.builder(
                         itemCount: state.currentTraits.length,
                         itemBuilder: (context, index) {
@@ -57,17 +49,15 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                             child: Row(
                                 children: [
                                   Checkbox(
-                                    activeColor: UIConfig.primaryOrange,
+                                    activeColor: uiConfig.primaryColor,
                                     value: state.currentTraits[index].isChecked,
                                     onChanged: (bool? checked) {
-                                      context.read<AppState>().toggleCheckbox(
-                                          index);
+                                      state.toggleCheckbox(index);
                                     },
                                     visualDensity: VisualDensity.compact,
                                   ),
                                   Expanded(
-                                      child: Text(
-                                          state.currentTraits[index].traitName)
+                                      child: Text(state.currentTraits[index].traitName)
                                   )
                                 ]),
                           );

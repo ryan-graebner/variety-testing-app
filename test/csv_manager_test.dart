@@ -12,7 +12,6 @@ import 'package:variety_testing_app/models/data_set.dart';
 import 'package:variety_testing_app/models/observation.dart';
 import 'package:variety_testing_app/models/trait.dart';
 import 'package:variety_testing_app/state/csv_manager.dart';
-import 'package:variety_testing_app/utilities/config.dart';
 
 @GenerateMocks([Client])
 import 'csv_manager_test.mocks.dart';
@@ -25,17 +24,18 @@ Future<String> readFile(String filename) async {
 
 void main() {
   fluttertest.TestWidgetsFlutterBinding.ensureInitialized();
+  String mockIndexUrl = "https://cropandsoil.oregonstate.edu/sites/agscid7/files/cbarc/variety-testing/index.csv";
 
   test.group('indexFileParsing', () {
     test.test('CSVManager should correctly parse a valid index file', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       final expected = [
         '1-30-2024',
         '2023',
@@ -50,12 +50,12 @@ void main() {
     test.test('CSVManager should throw exception for a too-short index file', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('bad_index.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
 
       expect(csvManager.getIndexFileData(), throwsA(isA<Exception>()));
     });
@@ -63,12 +63,12 @@ void main() {
     test.test('CSVManager should throw exception for a bad response code', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('bad_index.csv'), 400)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
 
       expect(csvManager.getIndexFileData(), throwsA(isA<Exception>()));
     });
@@ -77,12 +77,12 @@ void main() {
     test.test('CSVManager should get last updated', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
       const expected = '1-30-2024';
       final actual = csvManager.getLastUpdated();
@@ -91,12 +91,12 @@ void main() {
     test.test('CSVManager should get data year', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
       const expected = '2023';
       final actual = csvManager.getDataYear();
@@ -107,7 +107,7 @@ void main() {
     test.test('CSVManager should parse each file from a valid index', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
@@ -116,7 +116,7 @@ void main() {
           Response(await readFile('HRS_Low.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
 
       final expected = [
@@ -164,10 +164,10 @@ void main() {
 
       expect(jsonEncode(actual), jsonEncode(expected));
     });
-    test.test('CSVManager shoudl parse a flipped CSV', () async {
+    test.test('CSVManager should parse a flipped CSV', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
@@ -176,7 +176,7 @@ void main() {
           Response(await readFile('flipped_HRS_Low.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
 
       final expected = [
@@ -221,7 +221,7 @@ void main() {
     test.test('CSVManager should discard a CSV with no traits', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
@@ -230,7 +230,7 @@ void main() {
           Response(await readFile('no_traits_HRS_Low.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
 
       final expected = [];
@@ -241,7 +241,7 @@ void main() {
     test.test('CSVManager should discard a CSV with no observations', () async {
       final client = MockClient();
 
-      when(client.get(Uri.parse(Config.indexUrl)))
+      when(client.get(Uri.parse(mockIndexUrl)))
           .thenAnswer((_) async =>
           Response(await readFile('index.csv'), 200)
       );
@@ -250,7 +250,7 @@ void main() {
           Response(await readFile('bad_HRS_Low.csv'), 200)
       );
 
-      final csvManager = CSVManager(client);
+      final csvManager = CSVManager(mockIndexUrl, client);
       await csvManager.getIndexFileData();
 
       final expected = [];

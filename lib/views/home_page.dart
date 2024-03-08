@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:variety_testing_app/utilities/ui_config.dart';
 import 'package:variety_testing_app/views/variety_page.dart';
 import 'package:variety_testing_app/views/about_page.dart';
@@ -13,11 +14,6 @@ class _HomePageState extends State<HomePage> {
   // Navigation Var
   int currentPageIndex = 0;
 
-  final List<String> _titles = [
-    "Wheat and Barley Variety Data",
-    "Software Information"
-  ];
-
   final List<Widget> _pages = [
     const VarietyPage(),
     const AboutPage()
@@ -31,10 +27,10 @@ class _HomePageState extends State<HomePage> {
       MediaQuery.of(context).orientation == Orientation.landscape 
         ? null
         : AppBar(
-        backgroundColor: UIConfig.primaryOrange,
+        backgroundColor: context.read<UIConfig>().primaryColor,
         elevation: 0,
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
-        title: Text(_titles[currentPageIndex]),
+        title: Text(context.read<UIConfig>().pageTitles[currentPageIndex]),
         centerTitle: true,
       ),
       // Body is shifted between pages based on bottom pressed button

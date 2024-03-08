@@ -32,16 +32,15 @@ class _VarietyPageState extends State<VarietyPage> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Rows to hold environment label and dropdown
               Container(
                 decoration: BoxDecoration(
-                  color: UIConfig.secondaryGrey,
+                  color: context.read<UIConfig>().secondaryColor,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 3,
-                      offset: const Offset(0, 2), // changes position of shadow
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -84,7 +83,7 @@ class _VarietyPageState extends State<VarietyPage> {
                 ),
               ),
 
-              // DATA Table Widget
+              // Data table
               ScrollConfiguration(
                 behavior: const ScrollBehavior()
                     .copyWith(physics: const ClampingScrollPhysics()),

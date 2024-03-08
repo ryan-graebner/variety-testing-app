@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import '../../utilities/ui_config.dart';
 
 class ShowTraitsButton extends StatelessWidget {
@@ -13,14 +13,14 @@ class ShowTraitsButton extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          const Text("Show/Hide Traits",
+          Text("Show/Hide Traits",
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.bold,
-                color: UIConfig.primaryOrange
+                color: context.read<UIConfig>().primaryColor
             ),
           ),
-          Icon(icon, size: 24, color: UIConfig.primaryOrange),
+          Icon(icon, size: 24, color: context.read<UIConfig>().primaryColor),
         ],
       ),
     );
