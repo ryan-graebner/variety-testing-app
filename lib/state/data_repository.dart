@@ -21,7 +21,7 @@ class DataRepository extends ChangeNotifier {
     try {
       dataYear = await retrieveDataYear();
       lastUpdated = await retrieveLastUpdated();
-      //dataSets = await retrieveStateFromLocalStorage() ?? [];
+      dataSets = await retrieveStateFromLocalStorage() ?? [];
 
       await csvManager.getIndexFileData();
       String newLastUpdated = csvManager.getLastUpdated();
@@ -29,11 +29,11 @@ class DataRepository extends ChangeNotifier {
 
       // We should use the local data if the data set isn't updated from last time,
       // or the index file couldn't be fetched.
-      // if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
-      //   if (dataSets.isNotEmpty) {
-      //     return;
-      //   }
-      // }
+      if (dataYear == "" || lastUpdated == "" || (newLastUpdated == lastUpdated && newDataYear == dataYear)) {
+        if (dataSets.isNotEmpty) {
+          return;
+        }
+      }
 
       lastUpdated = newLastUpdated;
       dataYear = newDataYear;
