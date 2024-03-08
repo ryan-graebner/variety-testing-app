@@ -9,7 +9,8 @@ into the user's local device storage. The app detects changes in the last update
 but will default to using what is stored in local storage to reduce latency and allow offline use.
 
 ### index.csv
-OSU Variety Testing App pulls from the given index.csv file (whose URL can be specified in the `configuration.json` file). This file must be formatted as follows:
+OSU Variety Testing App pulls from the given index.csv file (whose URL can be specified in the`configuration.json`
+file). This file must be formatted as follows:
 ```
 03/01/2024  // Last updated - can be any text value. Changes in this will be detected.
 2023        // Year that data is from. Changes in this will be detected.
@@ -45,7 +46,8 @@ The second line should contain column visibilities for each column in the data s
 1. Not visible by default; user can toggle the column on
 2. Visible by default; user can toggle the column off
 3. Always visible; user cannot remove it
-4. Released; for the column used to filter the toggle for "Released". The value must be either the integer 0 (unreleased) or 1 (released). This is invisible as a normal column, but the value is used when filtering by "Released"
+4. Released; for the column used to filter the toggle for "Released". The value must be either the integer 0
+(unreleased) or 1 (released). This is invisible as a normal column, but the value is used when filtering by "Released"
 
 The third line should contain names for each column in the data set.
 

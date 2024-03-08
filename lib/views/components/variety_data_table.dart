@@ -10,10 +10,10 @@ class VarietyDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataTable2(
-        columnSpacing: 8,
+        columnSpacing: 4,
         fixedColumnsColor: context.read<UIConfig>().fixedColumnColor,
         dataRowHeight: 38.0,
-        horizontalMargin: 8,
+        horizontalMargin: 4,
         fixedLeftColumns: 1,
         fixedTopRows: 1,
         minWidth: 3000,
@@ -86,12 +86,13 @@ class VarietyDataTable extends StatelessWidget {
   }
 
   double calculateColumnWidth(int size) {
-    if (20.0 * size > 170.0) {
-      return 170.0;
-    } else if (20.0 * size < 120){
-      return 120.0;
-    } else {
-      return 20.0 * size;
+    double projectedWidth = 16.0 * size;
+    if (projectedWidth < 100.0) {
+      return 100.0;
     }
+    if (projectedWidth > 120.0) {
+      return 170.0;
+    }
+    return projectedWidth;
   }
 }
