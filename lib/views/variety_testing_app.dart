@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:variety_testing_app/utilities/ui_config.dart';
 import 'home_page.dart';
 
@@ -9,7 +10,7 @@ class VarietyTestingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Variety Testing Data',
-      theme: UIConfig.appTheme,
+      theme: context.read<UIConfig>().appTheme,
       home: const HomePage(),
     );
   }

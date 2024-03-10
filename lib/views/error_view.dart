@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../state/app_state.dart';
 import '../utilities/ui_config.dart';
 
@@ -19,9 +18,9 @@ class ErrorView extends StatelessWidget {
             Text(message),
             MaterialButton(
               onPressed: context.read<AppState>().retryDataLoad,
-              child: const Text("Try Again",
+              child: Text("Try Again",
                 style: TextStyle(
-                    color: UIConfig.primaryOrange,
+                    color: context.read<UIConfig>().primaryColor,
                     fontFamily: 'openSans',
                     fontWeight: FontWeight.bold,
                     fontSize: 15.0

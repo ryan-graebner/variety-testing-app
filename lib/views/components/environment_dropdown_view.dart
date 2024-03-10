@@ -31,7 +31,7 @@ class EnvironmentDropdownView extends StatelessWidget {
                         Set<MaterialState> states) => Colors.white,),
                     visualDensity: VisualDensity.compact,
                   ),
-                  initialSelection: state.dropdownValues.firstWhere((name) => name == state.currentDataSetName),
+                  initialSelection: state.dropdownValues.firstWhere((name) => name == state.currentDataSet.name),
                   inputDecorationTheme: const InputDecorationTheme(
                     constraints: BoxConstraints(maxHeight: 40.0),
                     contentPadding: EdgeInsets.only(left: 8.0),

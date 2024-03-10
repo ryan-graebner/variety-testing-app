@@ -6,23 +6,22 @@ import 'package:variety_testing_app/models/column_visibility.dart';
 import 'package:variety_testing_app/models/observation.dart';
 import '../models/data_set.dart';
 import '../models/trait.dart';
-import '../utilities/config.dart';
 
 class CSVManager {
   Client httpClient;
+  String indexUrl;
   List<String> indexFileRows = [];
   List<List<String>> csvRows = [];
 
-  CSVManager(this.httpClient);
+  CSVManager(this.indexUrl, this.httpClient);
 
   Future<List<String>> getIndexFileData() async {
     try {
-      final indexData = await fetchCSV(Config.indexUrl);
+      final indexData = await fetchCSV(indexUrl);
       indexFileRows = indexData.split(RegExp(r'(\r\n|\r|\n)'));
 
       if (indexFileRows.length < 4) {
-        throw Exception(
-            'Could not parse index CSV. Make sure it has at least 3 rows.');
+        throw Exception('Could not parse index CSV. Please ensure it has at least 3 rows.');
       }
       return indexFileRows;
     } catch (error) {

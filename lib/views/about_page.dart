@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../state/app_state.dart';
+import '../utilities/ui_config.dart';
 
 
 class AboutPage extends StatelessWidget {
@@ -13,6 +17,18 @@ class AboutPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text("${context.read<AppState>().dataRepository.dataYear} trial data", style: Theme.of(context).textTheme.bodyLarge),
+                    Text("Last updated: ${context.read<AppState>().dataRepository.lastUpdated}", style: Theme.of(context).textTheme.bodyMedium)
+                  ],
+                ),
+              ),
+            ),
+
             // DATA source card and link to Crop and Soil homepage
             Card(
               child: Padding(
@@ -20,25 +36,16 @@ class AboutPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text("Data Source", style: Theme.of(context).textTheme.bodyLarge,),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n "),
-                      )
-                    ],),
-                    const Row(children: [
-                      Flexible(
-                        child: Text("The data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:"),
-                      )
-                    ],),
+                    Text(context.read<UIConfig>().dataSummaryText),
                     // Inkwell and url_launcher added to make hyperlink clickable
                     Row(children: [
                       Flexible(
                         child: 
                         InkWell(
-                          onTap: () => launchUrl(Uri.parse('https://cropandsoil.oregonstate.edu/wheat/osu-wheat-variety-trials')),
-                          child: const Text(
-                            "https://cropandsoil.oregonstate.edu/wheat/osu-wheat-variety-trials",
-                            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
+                          onTap: () => launchUrl(Uri.parse(context.read<UIConfig>().dataSummaryURL)),
+                          child: Text(
+                            context.read<UIConfig>().dataSummaryURL,
+                            style: const TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
                         )
                       )
                     ],)
@@ -47,7 +54,7 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             // Github Card
-            //TODO: Add Public Repository with stripped down Data
+
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -66,7 +73,7 @@ class AboutPage extends StatelessWidget {
                         InkWell(
                           onTap: () => launchUrl(Uri.parse('https://github.com/annalevel/variety-testing-app')),
                           child: const Text(
-                            "OSU Mobile App for OSU Wheat and Barley Variety Testing",
+                            "Mobile App for Wheat and Barley Variety Testing",
                             style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
                         )
                       )

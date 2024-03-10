@@ -1,0 +1,15 @@
+{
+  "indexURL": "https://cropandsoil.oregonstate.edu/sites/agscid7/files/cbarc/variety-testing/index.csv",
+
+  "primaryColor": "D73F09",
+  "secondaryColor": "EEEEEE",
+  "dividerColor": "8E8E8E",
+  "fixedColumnColor": "D8D8D8",
+  "appBarTextColor": "FFFFFF",
+
+  "varietyPageTitle": "Wheat and Barley Variety Data",
+  "aboutPageTitle": "Software Information",
+
+  "dataSummaryURL": "https://cropandsoil.oregonstate.edu/wheat/osu-wheat-variety-trials",
+  "dataSummaryText": "Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n\nThe data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:"
+}

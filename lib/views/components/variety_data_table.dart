@@ -10,18 +10,19 @@ class VarietyDataTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DataTable2(
-        columnSpacing: 8,
-        fixedColumnsColor: Colors.grey.withOpacity(0.3),
-        horizontalMargin: 8,
+        columnSpacing: 4,
+        fixedColumnsColor: context.read<UIConfig>().fixedColumnColor,
+        dataRowHeight: 38.0,
+        horizontalMargin: 4,
         fixedLeftColumns: 1,
         fixedTopRows: 1,
         minWidth: 3000,
-        headingRowDecoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: UIConfig.dividerGrey))),
+        headingRowDecoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: context.read<UIConfig>().dividerColor))),
         dividerThickness: 1,
         empty: const Text("No variety data was found."),
         dataRowColor: MaterialStateProperty.resolveWith<Color?>((
-            Set<MaterialState> states) => UIConfig.secondaryGrey),
+            Set<MaterialState> states) => context.read<UIConfig>().secondaryColor),
         columns: _generateColumns(context),
         rows: _generateRows(context)
     );
@@ -49,7 +50,7 @@ class VarietyDataTable extends StatelessWidget {
           color: MaterialStateProperty.resolveWith<Color?>((
               Set<MaterialState> states) {
             if (!rowIndex.isEven) {
-              return UIConfig.secondaryGrey;
+              return context.read<UIConfig>().secondaryColor;
             }
             return null;
           }),
@@ -85,12 +86,13 @@ class VarietyDataTable extends StatelessWidget {
   }
 
   double calculateColumnWidth(int size) {
-    if (20.0 * size > 170.0) {
-      return 170.0;
-    } else if (20.0 * size < 120){
-      return 120.0;
-    } else {
-      return 20.0 * size;
+    double projectedWidth = 16.0 * size;
+    if (projectedWidth < 100.0) {
+      return 100.0;
     }
+    if (projectedWidth > 120.0) {
+      return 170.0;
+    }
+    return projectedWidth;
   }
 }
