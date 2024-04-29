@@ -6,7 +6,6 @@ class Configuration {
   Map<String, dynamic> configString;
   String indexUrl;
   Color primaryColor;
-  Color secondaryColor;
   Color dividerColor;
   List<String> pageTitles;
   String dataSummaryURL;
@@ -16,7 +15,6 @@ class Configuration {
     final indexUrl = configString['indexURL'] ?? "https://cropandsoil.oregonstate.edu/sites/agscid7/files/cbarc/variety-testing/index.csv";
 
     Color primaryColor = const Color(0xFFD73F09),
-        secondaryColor = const Color(0xFFFFFFFF),
         dividerColor = const Color(0xFF8E8E8E);
 
     if (configString['primaryColor'] != null) {
@@ -42,8 +40,8 @@ class Configuration {
                     These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n\n
                     The data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:""";
 
-    return Configuration(configString, indexUrl, primaryColor, secondaryColor, dividerColor, titles, dataSummaryURL, dataSummaryText);
+    return Configuration(configString, indexUrl, primaryColor, dividerColor, titles, dataSummaryURL, dataSummaryText);
   }
 
-  Configuration(this.configString, this.indexUrl, this.primaryColor, this.secondaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText);
+  Configuration(this.configString, this.indexUrl, this.primaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText);
 }
