@@ -11,7 +11,7 @@ class VarietyDataTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataTable2(
         columnSpacing: 4,
-        fixedColumnsColor: context.read<UIConfig>().fixedColumnColor,
+        fixedColumnsColor: context.read<UIConfig>().secondaryColor,
         dataRowHeight: 38.0,
         horizontalMargin: 4,
         fixedLeftColumns: 1,
