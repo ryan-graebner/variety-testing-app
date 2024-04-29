@@ -21,10 +21,6 @@ class Configuration {
       primaryColor = Color(
           int.parse(configString['primaryColor'], radix: 16) + 0xFF000000);
     }
-    if (configString['secondaryColor'] != null) {
-      secondaryColor = Color(
-          int.parse(configString['secondaryColor'], radix: 16) + 0xFF000000);
-    }
     if (configString['dividerColor'] != null) {
       dividerColor = Color(
           int.parse(configString['dividerColor'], radix: 16) + 0xFF000000);
