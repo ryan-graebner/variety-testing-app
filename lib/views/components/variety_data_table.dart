@@ -46,8 +46,7 @@ class VarietyDataTable extends StatelessWidget {
   List<DataRow> _generateRows(BuildContext context) {
     return List<DataRow2>.generate(context.watch<AppState>().visibleDataSet.observations.length, (rowIndex) =>
         DataRow2(
-          color: MaterialStateProperty.resolveWith<Color?>((
-            Set<MaterialState> states) => context.read<UIConfig>().secondaryColor),
+          color: Color(0xFFFFFFFF),
           cells: _generateCells(context, rowIndex)
         )
     );
