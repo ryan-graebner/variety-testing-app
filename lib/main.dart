@@ -21,7 +21,6 @@ Future<void> main() async {
           Provider<UIConfig>(
             create: (context) => UIConfig(
                 finalConfig.primaryColor,
-                finalConfig.secondaryColor,
                 finalConfig.dividerColor,
                 finalConfig.pageTitles,
                 finalConfig.dataSummaryURL,
