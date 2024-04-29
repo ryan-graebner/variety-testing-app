@@ -23,8 +23,6 @@ Future<void> main() async {
                 finalConfig.primaryColor,
                 finalConfig.secondaryColor,
                 finalConfig.dividerColor,
-                finalConfig.fixedColumnColor,
-                finalConfig.appBarTextColor,
                 finalConfig.pageTitles,
                 finalConfig.dataSummaryURL,
                 finalConfig.dataSummaryText
