@@ -2,10 +2,8 @@
   "indexURL": "https://cropandsoil.oregonstate.edu/sites/agscid7/files/cbarc/variety-testing/index.csv",
 
   "primaryColor": "D73F09",
-  "secondaryColor": "EEEEEE",
+  "secondaryColor": "FFFFFF",
   "dividerColor": "8E8E8E",
-  "fixedColumnColor": "D8D8D8",
-  "appBarTextColor": "FFFFFF",
 
   "varietyPageTitle": "Wheat and Barley Variety Data",
   "aboutPageTitle": "Software Information",
