@@ -86,12 +86,9 @@ class VarietyDataTable extends StatelessWidget {
   }
 
   double calculateColumnWidth(int size) {
-    double projectedWidth = 16.0 * size;
-    if (projectedWidth < 100.0) {
-      return 100.0;
-    }
-    if (projectedWidth > 120.0) {
-      return 170.0;
+    double projectedWidth = 8.0 * size;
+    if (projectedWidth < 48.0) {
+      return 48.0;
     }
     return projectedWidth;
   }
