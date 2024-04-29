@@ -71,7 +71,7 @@ class AboutPage extends StatelessWidget {
                       Flexible(
                         child: 
                         InkWell(
-                          onTap: () => launchUrl(Uri.parse('https://github.com/annalevel/variety-testing-app')),
+                          onTap: () => launchUrl(Uri.parse('https://github.com/ryan-graebner/variety-testing-app/')),
                           child: const Text(
                             "Mobile App for Wheat and Barley Variety Testing",
                             style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
