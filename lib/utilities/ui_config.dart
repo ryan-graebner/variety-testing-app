@@ -4,14 +4,12 @@ class UIConfig {
   final Color primaryColor;
   final Color secondaryColor;
   final Color dividerColor;
-  final Color fixedColumnColor;
-  final Color appBarTextColor;
   final ThemeData appTheme;
   final List<String> pageTitles;
   final String dataSummaryURL;
   final String dataSummaryText;
 
-  UIConfig(this.primaryColor, this.secondaryColor, this.dividerColor, this.fixedColumnColor, this.appBarTextColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText)
+  UIConfig(this.primaryColor, this.secondaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText)
       : appTheme = ThemeData(
     primaryColor: primaryColor,
     dividerTheme: DividerThemeData(color: dividerColor),
@@ -21,7 +19,7 @@ class UIConfig {
     textTheme: TextTheme(
       // Used for the APP BAR
         titleLarge: TextStyle(
-            color: appBarTextColor,
+            color: secondaryColor,
             fontFamily: 'openSans',
             fontWeight: FontWeight.bold,
             fontSize: 20.0),
