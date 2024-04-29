@@ -37,7 +37,7 @@ class _VarietyPageState extends State<VarietyPage> {
                   color: context.read<UIConfig>().secondaryColor,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: Colors.white,
                       spreadRadius: 1,
                       blurRadius: 3,
                       offset: const Offset(0, 2),
