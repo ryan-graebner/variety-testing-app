@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 
 class UIConfig {
   final Color primaryColor;
-  final Color secondaryColor;
   final Color dividerColor;
   final ThemeData appTheme;
   final List<String> pageTitles;
   final String dataSummaryURL;
   final String dataSummaryText;
 
-  UIConfig(this.primaryColor, this.secondaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText)
+  UIConfig(this.primaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText)
       : appTheme = ThemeData(
     primaryColor: primaryColor,
     dividerTheme: DividerThemeData(color: dividerColor),
@@ -19,7 +18,7 @@ class UIConfig {
     textTheme: TextTheme(
       // Used for the APP BAR
         titleLarge: TextStyle(
-            color: secondaryColor,
+            color: Color(0xFFFFFFFF),
             fontFamily: 'openSans',
             fontWeight: FontWeight.bold,
             fontSize: 20.0),
