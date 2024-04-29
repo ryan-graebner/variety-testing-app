@@ -34,7 +34,7 @@ class _VarietyPageState extends State<VarietyPage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: context.read<UIConfig>().secondaryColor,
+                  color: Color(0xFFFFFFFF),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
