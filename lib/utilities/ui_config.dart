@@ -21,19 +21,23 @@ class UIConfig {
             color: Color(0xFFFFFFFF),
             fontFamily: 'openSans',
             fontWeight: FontWeight.bold,
-            fontSize: 20.0),
+            fontSize: 20.0
+        ),
         // Used for the NAV BAR
         titleSmall: const TextStyle(
           color: Color(0xFFFFFFFF),
           fontFamily: 'openSans',
           fontWeight: FontWeight.bold,
-          fontSize: 12.0, ),
+          fontSize: 12.0, 
+        ),
+        //Used for column names
         bodyLarge: const TextStyle(
             color: Color(0xFF000000),
             fontFamily: 'openSans',
             fontWeight: FontWeight.bold,
             fontSize: 14.0
         ),
+        //Used for table cells
         bodyMedium: const TextStyle(
           color: Color(0xFF000000),
           fontFamily: 'openSans',
