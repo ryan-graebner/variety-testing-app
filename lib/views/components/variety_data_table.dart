@@ -20,7 +20,10 @@ class VarietyDataTable extends StatelessWidget {
         headingRowColor: MaterialStateProperty.resolveWith<Color?>((
             Set<MaterialState> states) => Color(0xFFFFFFFF)),
         headingRowDecoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: context.read<UIConfig>().dividerColor))),
+            border: Border(
+                bottom: BorderSide(color: context.read<UIConfig>().dividerColor),
+                top: BorderSide(color: context.read<UIConfig>().dividerColor)
+            )),
         dividerThickness: 1,
         empty: const Text("No variety data was found."),
         dataRowColor: MaterialStateProperty.resolveWith<Color?>((
