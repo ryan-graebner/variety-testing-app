@@ -21,7 +21,8 @@ class VarietyDataTable extends StatelessWidget {
             border: Border(bottom: BorderSide(color: context.read<UIConfig>().dividerColor))),
         dividerThickness: 1,
         empty: const Text("No variety data was found."),
-        dataRowColor: Color(0xFFFFFFFF),
+        dataRowColor: MaterialStateProperty.resolveWith<Color?>((
+            Set<MaterialState> states) => Color(0xFFFFFFFF)),
         columns: _generateColumns(context),
         rows: _generateRows(context)
     );
@@ -46,7 +47,6 @@ class VarietyDataTable extends StatelessWidget {
   List<DataRow> _generateRows(BuildContext context) {
     return List<DataRow2>.generate(context.watch<AppState>().visibleDataSet.observations.length, (rowIndex) =>
         DataRow2(
-          color: Color(0xFFFFFFFF),
           cells: _generateCells(context, rowIndex)
         )
     );
