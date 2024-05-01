@@ -17,6 +17,8 @@ class VarietyDataTable extends StatelessWidget {
         fixedLeftColumns: 1,
         fixedTopRows: 1,
         minWidth: 3000,
+        headingRowColor: MaterialStateProperty.resolveWith<Color?>((
+            Set<MaterialState> states) => Color(0xFFFFFFFF)),
         headingRowDecoration: BoxDecoration(
             border: Border(bottom: BorderSide(color: context.read<UIConfig>().dividerColor))),
         dividerThickness: 1,
