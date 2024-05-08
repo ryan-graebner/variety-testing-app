@@ -7,8 +7,9 @@ class UIConfig {
   final List<String> pageTitles;
   final String dataSummaryURL;
   final String dataSummaryText;
+  final String dataTraitDescriptions;
 
-  UIConfig(this.primaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText)
+  UIConfig(this.primaryColor, this.dividerColor, this.pageTitles, this.dataSummaryURL, this.dataSummaryText, this.dataTraitDescriptions)
       : appTheme = ThemeData(
     primaryColor: primaryColor,
     dividerTheme: DividerThemeData(color: dividerColor),
