@@ -29,6 +29,19 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             
+            // Trait Descriptions
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text("Trait Descriptions", style: Theme.of(context).textTheme.bodyLarge,),
+                    Text(context.read<UIConfig>().dataTraitDescriptions),
+                  ],
+                ),
+              ),
+            ),
+            
             // DATA source card and link to OSU Variety Testing Homepage
             Card(
               child: Padding(
@@ -49,19 +62,6 @@ class AboutPage extends StatelessWidget {
                         )
                       )
                     ],)
-                  ],
-                ),
-              ),
-            ),
-            
-            // Trait Descriptions
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    Text("Trait Descriptions", style: Theme.of(context).textTheme.bodyLarge,),
-                    Text(context.read<UIConfig>().dataTraitDescriptions),
                   ],
                 ),
               ),
