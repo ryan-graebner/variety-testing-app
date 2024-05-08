@@ -35,8 +35,8 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
               ),
               SizedBox(
                 height: MediaQuery.of(context).orientation == Orientation.landscape
-                    ? 100.0
-                    : 200.0,
+                    ? 110.0
+                    : 220.0,
                 child: Consumer2<AppState, UIConfig>(
                   builder: (BuildContext context, AppState state, UIConfig uiConfig, Widget? child) {
                     return ListView.builder(
