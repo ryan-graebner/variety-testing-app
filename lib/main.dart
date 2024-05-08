@@ -24,7 +24,8 @@ Future<void> main() async {
                 finalConfig.dividerColor,
                 finalConfig.pageTitles,
                 finalConfig.dataSummaryURL,
-                finalConfig.dataSummaryText
+                finalConfig.dataSummaryText,
+                finalConfig.dataTraitDescriptions
             )
           ),
           ChangeNotifierProvider<AppState>(
