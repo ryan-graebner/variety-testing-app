@@ -8,5 +8,6 @@
   "aboutPageTitle": "Software Information",
 
   "dataSummaryURL": "https://cropandsoil.oregonstate.edu/wheat/osu-wheat-variety-trials",
-  "dataSummaryText": "Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n\nThe data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:"
+  "dataSummaryText": "Every year, the Oregon State University Cereal Extension Program conducts wheat and barley variety trials across the state. These trials serve as the final testing ground for varieties developed by universities, the USDA, and private breeding breeding programs.\n\nThe data within this app is from the OSU cereal variety testing regional summaries and disease summaries, which are available online at:",
+  "dataTraitDescriptions": "Disease Resistance Scores:\nR - Resistant\nMR - Moderately Resistant\nI - Intermediate\nMS - Moderately Susceptible\nS - Susceptible\n\nQuality Scores:\nMD - Most Desirable\nD - Desirable\nA - Acceptable\nLD - Least Desirable"
 }
