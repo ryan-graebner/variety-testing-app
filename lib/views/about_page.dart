@@ -22,14 +22,14 @@ class AboutPage extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    Text("${context.read<AppState>().dataRepository.dataYear} trial data", style: Theme.of(context).textTheme.bodyLarge),
+                    Text("${context.read<AppState>().dataRepository.dataYear} Trial Data", style: Theme.of(context).textTheme.bodyLarge),
                     Text("Last updated: ${context.read<AppState>().dataRepository.lastUpdated}", style: Theme.of(context).textTheme.bodyMedium)
                   ],
                 ),
               ),
             ),
-
-            // DATA source card and link to Crop and Soil homepage
+            
+            // DATA source card and link to OSU Variety Testing Homepage
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -53,8 +53,21 @@ class AboutPage extends StatelessWidget {
                 ),
               ),
             ),
+            
+            // Trait Descriptions
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    Text("Trait Descriptions", style: Theme.of(context).textTheme.bodyLarge,),
+                    Text(context.read<UIConfig>().dataTraitDescriptions),
+                  ],
+                ),
+              ),
+            ),
+            
             // Github Card
-
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
