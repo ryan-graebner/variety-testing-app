@@ -17,6 +17,8 @@ class AboutPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: [
+
+            // Dataset Info
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
