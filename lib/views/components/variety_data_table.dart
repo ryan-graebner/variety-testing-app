@@ -30,7 +30,6 @@ class VarietyDataTable extends StatelessWidget {
             Set<MaterialState> states) => Color(0xFFFFFFFF)),
         columns: _generateColumns(context),
         rows: _generateRows(context),
-        float: left,
     );
   }
 
