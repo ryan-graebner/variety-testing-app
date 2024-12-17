@@ -38,7 +38,7 @@ class AboutPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text("Trait Descriptions", style: Theme.of(context).textTheme.bodyLarge,),
-                    Text(context.read<UIConfig>().dataTraitDescriptions, style: Theme.of(context).textTheme.bodyMedium),
+                    Text(context.read<UIConfig>().dataTraitDescriptions, textAlign: TextAlign.center,),
                   ],
                 ),
               ),
