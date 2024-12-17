@@ -84,15 +84,16 @@ class _VarietyPageState extends State<VarietyPage> {
               ),
 
               // Data table
-              ScrollConfiguration(
-                behavior: const ScrollBehavior()
-                    .copyWith(physics: const ClampingScrollPhysics()),
-                child:
-                Flexible(
+              Align(
+                alignment: Alignment.topLeft,
+                child: ScrollConfiguration(
+                  behavior: const ScrollBehavior().copyWith(physics: const ClampingScrollPhysics()),
+                  child: Flexible(
                     child: Visibility(
                       visible: !state.isLoading,
                       child: const VarietyDataTable(),
-                    )
+                    ),
+                  ),
                 ),
               )
             ],
