@@ -29,7 +29,8 @@ class VarietyDataTable extends StatelessWidget {
         dataRowColor: MaterialStateProperty.resolveWith<Color?>((
             Set<MaterialState> states) => Color(0xFFFFFFFF)),
         columns: _generateColumns(context),
-        rows: _generateRows(context)
+        rows: _generateRows(context),
+        float: left,
     );
   }
 
