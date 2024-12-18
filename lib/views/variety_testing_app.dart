@@ -10,6 +10,7 @@ class VarietyTestingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Variety Testing Data',
+      debugShowCheckedModeBanner: false,
       theme: context.read<UIConfig>().appTheme,
       home: const HomePage(),
     );
