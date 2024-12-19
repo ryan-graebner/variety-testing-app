@@ -105,7 +105,7 @@ class AboutPage extends StatelessWidget {
                     Text("Acknowledgment", style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("This app was produced by Anna Level and Andrew Wallace as a Capstone Project at Oregon State University. This project was mentored by Dr. Ryan Graebner.\n"),
+                        child: Text("This app was produced by Anna Level and Andrew Wallace for a Capstone Project at Oregon State University. This project was mentored by Dr. Ryan Graebner.\n"),
                       )
                     ],),
                   ],
