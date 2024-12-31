@@ -1,4 +1,4 @@
-package com.example.variety_testing_app
+package com.oregonstate.variety_testing_app
 
 import io.flutter.embedding.android.FlutterActivity
 
