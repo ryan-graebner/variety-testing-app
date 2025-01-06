@@ -20,7 +20,8 @@ class EnvironmentDropdownView extends StatelessWidget {
                       fontFamily: 'openSans',
                       fontSize: 14,
                       fontWeight: FontWeight.bold
-                  )
+                  ),
+                  textScaleFactor: 1.0,
               ),
               const SizedBox(width: 8.0),
               // Create the dropdown based off the list of environments
