@@ -30,7 +30,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: context.read<UIConfig>().primaryColor,
         elevation: 0,
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
-        title: Text(context.read<UIConfig>().pageTitles[currentPageIndex]),
+        title: Text(
+          context.read<UIConfig>().pageTitles[currentPageIndex],
+          textScaleFactor: 1.0,
+        ),
         centerTitle: true,
       ),
       // Body is shifted between pages based on bottom pressed button
