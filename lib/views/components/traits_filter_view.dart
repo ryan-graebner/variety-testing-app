@@ -28,7 +28,8 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                   children: [
                     Icon(context.read<AppState>().releasedToggle ? Icons.toggle_on : Icons.toggle_off, size: 30, color: context.read<AppState>().releasedToggle ? context.read<UIConfig>().primaryColor : context.read<UIConfig>().dividerColor),
                     Text("Released Only",
-                        style: Theme.of(context).textTheme.bodyMedium
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        textScaleFactor: 1.0,
                     ),
                   ],
                 ),
@@ -57,7 +58,9 @@ class _TraitsFilterViewState extends State<TraitsFilterView> {
                                     visualDensity: VisualDensity.compact,
                                   ),
                                   Expanded(
-                                      child: Text(state.currentTraits[index].traitName)
+                                      child: Text(state.currentTraits[index].traitName,
+                                        textScaleFactor: 1.0,
+                                      )
                                   )
                                 ]),
                           );
