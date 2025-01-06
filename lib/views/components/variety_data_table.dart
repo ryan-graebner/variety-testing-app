@@ -41,7 +41,8 @@ class VarietyDataTable extends StatelessWidget {
             child: Text(context.watch<AppState>().visibleDataSet.traits[index].name ?? "",
               style: Theme.of(context).textTheme.bodyLarge,
               softWrap: true,
-              textAlign: TextAlign.right,
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.0,
             ),
           ),
           fixedWidth: calculateColumnWidth(context.watch<AppState>().visibleDataSet.traits[index].name.length ?? 0),
@@ -77,6 +78,7 @@ class VarietyDataTable extends StatelessWidget {
                     .bodyMedium,
                 softWrap: true,
                 textAlign: TextAlign.center,
+                textScaleFactor: 1.0,
               ),
             )
         )
