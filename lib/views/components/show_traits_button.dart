@@ -19,6 +19,7 @@ class ShowTraitsButton extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: context.read<UIConfig>().primaryColor
             ),
+            textScaleFactor: 1.0,
           ),
           Icon(icon, size: 24, color: context.read<UIConfig>().primaryColor),
         ],
