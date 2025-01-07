@@ -46,7 +46,7 @@ class EnvironmentDropdownView extends StatelessWidget {
                     return DropdownMenuEntry<String>(
                         value: value,
                         label: value,
-                        labelWidget: Text(value, style: Theme.of(context).textTheme.bodyMedium, softWrap: true, overflow: TextOverflow.ellipsis,)
+                        labelWidget: Text(value, style: Theme.of(context).textTheme.bodyMedium, softWrap: true, overflow: TextOverflow.ellipsis,textScaleFactor: 1.0,)
                     );
                   }).toList(),
                   onSelected: onSelected,
