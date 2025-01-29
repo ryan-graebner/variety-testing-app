@@ -51,7 +51,7 @@ class AboutPage extends StatelessWidget {
                 child: Column(
                   children: [
                     Text("Data Source", style: Theme.of(context).textTheme.bodyLarge,),
-                    Text(context.read<UIConfig>().dataSummaryText),
+                    Text(context.read<UIConfig>().dataSummaryText, textAlign: TextAlign.center,),
                     // Inkwell and url_launcher added to make hyperlink clickable
                     Row(children: [
                       Flexible(
@@ -60,7 +60,8 @@ class AboutPage extends StatelessWidget {
                           onTap: () => launchUrl(Uri.parse(context.read<UIConfig>().dataSummaryURL)),
                           child: Text(
                             context.read<UIConfig>().dataSummaryURL,
-                            style: const TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
+                            style: const TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                            textAlign: TextAlign.center,),
                         )
                       )
                     ],)
@@ -78,7 +79,7 @@ class AboutPage extends StatelessWidget {
                     Text("Github Link" , style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("The source code for this application is available at the following link:\n"),
+                        child: Text("The source code for this application is available at the following link:\n", textAlign: TextAlign.center,),
                       )
                     ],),
                     // Inkwell and url_launcher added to make hyperlink clickable
@@ -88,8 +89,9 @@ class AboutPage extends StatelessWidget {
                         InkWell(
                           onTap: () => launchUrl(Uri.parse('https://github.com/ryan-graebner/variety-testing-app/')),
                           child: const Text(
-                            "Mobile App for Wheat and Barley Variety Testing",
-                            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),),
+                            "https://github.com/ryan-graebner/variety-testing-app/",
+                            style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                            textAlign: TextAlign.center,),
                         )
                       )
                     ],)
@@ -105,7 +107,7 @@ class AboutPage extends StatelessWidget {
                     Text("Acknowledgment", style: Theme.of(context).textTheme.bodyLarge,),
                     const Row(children: [
                       Flexible(
-                        child: Text("This app was produced by Anna Level and Andrew Wallace for a Capstone Project at Oregon State University. This project was mentored by Dr. Ryan Graebner.\n"),
+                        child: Text("This app was produced by Anna Level and Andrew Wallace for a Capstone Project at Oregon State University. This project was mentored by Dr. Ryan Graebner.\n", textAlign: TextAlign.center,),
                       )
                     ],),
                   ],
