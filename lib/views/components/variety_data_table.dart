@@ -11,10 +11,8 @@ class VarietyDataTable extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataTable2(
         columnSpacing: 4,
-        fixedColumnsColor: Color(0xFFFFFFFF),
         dataRowHeight: 38.0,
         horizontalMargin: 4,
-        fixedLeftColumns: 1,
         fixedTopRows: 1,
         minWidth: 3000,
         headingRowColor: MaterialStateProperty.resolveWith<Color?>((
