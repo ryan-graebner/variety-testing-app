@@ -30,7 +30,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace "com.oregonstate.variety_testing_app"
-    compileSdkVersion 34 // flutter.compileSdkVersion
+    compileSdkVersion 36 // flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
